@@ -1,0 +1,146 @@
+README
+
+**** This document will be utilized to provide our design and current process ****
+**** SpotlessStockX - Chemical Inventory System ****
+
+
+**** Overview ****
+SpotlessStockX is a chemical inventory system designed to streamline and efficiently manage chemical inventory for carwash operations. 
+The system aims to provide a user-friendly interface for adding, updating, and monitoring chemical stock levels.
+
+
+**** Project Title ****
+**** Inventory Control System Project Proposal****
+
+**** Application Name ****
+SpotlessStockX
+
+**** Table of Contents ****
+- [System Overview]
+- [Project Title]
+- [Application Name]
+- [Design Overview]
+- [Current Processes]
+- [Main Features]
+- [Development Progress]
+- [Future Enhancements]
+
+
+**** Design Overview ****
+The SpotlessStockX system is designed with a modular structure, utilizing the Singleton pattern for key components like the inventory system. 
+The system follows an Object-Oriented Programming (OOP) approach, separating concerns into different classes for improved maintainability.
+
+
+
+**** Singleton Pattern ****
+  The SpotlessStockX system uses the Singleton design pattern for vital components to ensure a single case throughout the application's lifecycle. 
+  This pattern is mainly useful for managing shared resources and integrating control.
+
+
+ **** Singleton Components ****
+1. **SpotlessStockXIS (Inventory System):**
+   - The `SpotlessStockXIS` class, responsible for managing the chemical inventory system, follows the Singleton pattern.
+   - Confirms that only one instance of the inventory system exists, providing a global point of access.
+
+2. **searchINV (Inventory Search):**
+   - The `searchINV` class, responsible for searching the chemical inventory, also follows the Singleton pattern.
+   - Guarantees a single instance, enabling steady and efficient search functionality across the application.
+
+
+
+**** Advantages of Singleton Pattern ****
+1. **** Global Access ****
+   - Enables global access to the Singleton cases - ensuring reliable data and functionality throughout the application.
+
+2. **** Resource Management: ****
+   - Helps in efficient management of shared resources, such as the chemical inventory system, preventing resource conflicts.
+
+3. **** Reduced Memory Usage ****
+   - Limits the instantiation of multiple objects. Helping System Performance
+
+
+
+**** Implementation Details ****
+The implementation of the Singleton pattern involves private constructors - a static method for getting the instance - and lazy initialization to create the instance only when needed.
+
+
+
+**** Current Processes ****
+The system currently allows for essential functions - such as adding items to the inventory checking stock levels - updating stock information - deleting stock items -
+We are in the process of allowing for - viewing delivery sites - and exporting Bill of Lading (BOL) reports - once the DB connection has been set up. 
+It employs a basic search functionality for inventory items.
+
+## Main Features
+
+1. ****Chemical Inventory Management****
+   - Track different chemical types, sizes, and quantities.
+   - User-friendly design, especially for management.
+
+2. ****Multi-Site Tracking****
+   - Updates and notifications based on stock levels or quantities used in a period.
+
+3. ****Billing****
+   - Generate Bill of Lading (BOL) reports for chemical deliveries.
+
+4. ****Outlook (Predictions****
+   - Future functionality for forecasting chemical usage.
+
+5. ****Basic Application Features****
+   - Data input/editing, input authentication, error handling, interface design, etc.
+
+
+
+
+**** Development Progress ****
+
+****Week completions****
+
+* Week 1: Proposal *
+•	Outline project.
+•	Define objectives and initiatives.
+•	Develop a more detailed plan. 
+
+
+
+* Week 2: Development - Testing *
+•	Create a basic program structure.
+•	Plan for database connection.
+•	Submit current code with comments.
+
+//CURRENT PHASE
+* Week 3: Development - Troubleshooting *
+•	Progress with program functionality.
+•	Implement logging.
+
+
+* Week 4: Version Control *
+•	Allow user input for sales/invoices.
+•	Enable navigation.
+•	Utilize variables for report processing.
+•	Document current code and future.
+•	Incorporate version control with the current code.
+
+
+* Week 5: Back-End Database *
+•	Integrate database for invoices.
+•	Implement report generation.
+•	Document current code state and future.
+
+
+* Week 6: Finalized *
+•	Complete code and finalization.
+•	Enable saving and reviewing information using the database.
+
+
+
+
+**** Future Enhancements ****
+
+- ****Database Integration****
+  - Integrate a MySQL database for improved data storage.
+
+- ****Advanced Reporting****
+  - Implement more advanced reporting features.
+
+//More to come
+
