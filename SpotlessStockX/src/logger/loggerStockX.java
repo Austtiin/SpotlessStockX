@@ -20,15 +20,15 @@ public class loggerStockX {
 
             logger.setLevel(Level.INFO);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "FileHandler failed", e);
+            logger.log(Level.SEVERE, "Failed to load Filehandler", e);
         }
     }
 
     public static void main(String[] args) {
         loggerStockX log = new loggerStockX();
-        logger.info("Logger Initialized.");
+        logger.info("Logger Created");
         try {
-            // Implement logic to log
+            
         } catch (Exception e) {
             logger.log(Level.WARNING, "Exception: ", e);
         }
