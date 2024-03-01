@@ -6,15 +6,17 @@ package stockXGUI;
 import javax.swing.*;
 import java.awt.*;
 
+// ChemicalsPanel Class
 public class ChemicalsPanel extends JPanel {
     public ChemicalsPanel() {
         initialize();
     }
 
+    // Initialize Method
     private void initialize() {
         setLayout(new BorderLayout());
 
-        // Title / Components Label
+        // Title Label
         JLabel titleLabel = new JLabel("Chemicals Panel");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         add(titleLabel, BorderLayout.NORTH);
