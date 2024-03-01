@@ -1,3 +1,6 @@
+// Purpose: This file creates a panel with rounded corners for the GUI.
+
+
 package stockXGUI;
 
 import javax.swing.JPanel;

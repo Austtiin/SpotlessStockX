@@ -1,3 +1,5 @@
+// Purpose: Main application class for SpotlessStockXIS.
+
 package mainApp;
 
 import java.util.Scanner;

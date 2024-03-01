@@ -1,3 +1,6 @@
+// Purpose: Contains the ChemicalsPanel class which is a JPanel that contains the title and add button for the chemicals panel.
+
+
 package stockXGUI;
 
 import javax.swing.*;
