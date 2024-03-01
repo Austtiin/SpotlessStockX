@@ -1,3 +1,5 @@
+// Purpose: This class is responsible for searching the inventory.
+
 package mainApp;
 
 import java.sql.Connection;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+// This class is responsible for searching the inventory
 public class searchINV {
     private Map<String, Integer> inventory;
 
