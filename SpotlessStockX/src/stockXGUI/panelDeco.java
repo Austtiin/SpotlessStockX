@@ -12,12 +12,12 @@ import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
 public class panelDeco extends JPanel {
-
     private int roundTopLeft = 0;
     private int roundTopRight = 0;
     private int roundBottomLeft = 0;
     private int roundBottomRight = 0;
 
+    // Constructor
     public panelDeco() {
         setOpaque(false);
     }
@@ -52,12 +52,13 @@ public class panelDeco extends JPanel {
     public int getRoundBottomRight() {
         return roundBottomRight;
     }
-
+    
     public void setRoundBottomRight(int roundBottomRight) {
         this.roundBottomRight = roundBottomRight;
         repaint();
     }
 
+    	// This function paints the panel with rounded corners
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g.create();
@@ -71,6 +72,7 @@ public class panelDeco extends JPanel {
         super.paintComponent(g);
     }
 
+    	// This function creates a rounded rectangle
     private RoundRectangle2D createRoundedRect() {
         int width = getWidth();
         int height = getHeight();
