@@ -1,3 +1,5 @@
+// Purpose: Main class to start and run the application.
+
 package mainApp;
 
 public class Main {
