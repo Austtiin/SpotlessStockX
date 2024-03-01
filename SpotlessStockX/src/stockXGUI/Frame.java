@@ -4,15 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 public class Frame {
     private JFrame frame;
     private JLabel loadingLabel;
+    private panelDeco contentPanel; // Add contentPanel declaration
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -38,58 +35,54 @@ public class Frame {
         frame.getContentPane().setBackground(new Color(34, 31, 32));
         frame.setBounds(100, 100, 1029, 650);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
+        frame.getContentPane().setLayout(new BorderLayout());
 
         panelDeco mainPanel = new panelDeco();
         mainPanel.setRoundTopRight(20);
         mainPanel.setRoundBottomRight(20);
         mainPanel.setRoundTopLeft(20);
         mainPanel.setRoundBottomLeft(20);
-        mainPanel.setBounds(10, 11, 200, 589);
         mainPanel.setBackground(new Color(255, 255, 204));
-        frame.getContentPane().add(mainPanel);
+        frame.getContentPane().add(mainPanel, BorderLayout.WEST);
 
-        panelDeco headerPanel = new panelDeco();
-        headerPanel.setRoundTopRight(20);
-        headerPanel.setRoundBottomRight(20);
-        headerPanel.setRoundTopLeft(20);
-        headerPanel.setRoundBottomLeft(20);
-        headerPanel.setBounds(220, 11, 783, 83);
-        headerPanel.setBackground(new Color(255, 255, 204));
-        frame.getContentPane().add(headerPanel);
-
-        // Our Vertical. Menu
         JToolBar menuBar = new JToolBar(JToolBar.VERTICAL);
         menuBar.setFloatable(false);
         menuBar.setOpaque(false);
 
         JButton homeButton = createMenuButton("Home");
         JButton chemicalsButton = createMenuButton("Chemicals");
+        JButton sitesButton = createMenuButton("Sites");
+        JButton generateBOLButton = createMenuButton("Generate BOL");
 
         menuBar.add(homeButton);
         menuBar.add(chemicalsButton);
+        menuBar.add(sitesButton);
+        menuBar.add(generateBOLButton);
         menuBar.setBounds(0, 0, 120, mainPanel.getHeight());
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(menuBar, BorderLayout.WEST);
 
-        loadingLabel = new JLabel("Loading...");
-        loadingLabel.setHorizontalAlignment(JLabel.CENTER);
-        loadingLabel.setVerticalAlignment(JLabel.CENTER);
-        loadingLabel.setIcon(new ImageIcon("loading.gif")); // Replace with your loading GIF
-        loadingLabel.setBounds(220, 105, 783, 495);
-        loadingLabel.setVisible(false);
-        frame.getContentPane().add(loadingLabel);
+        contentPanel = new panelDeco(); // Initialize contentPanel
+        contentPanel.setRoundTopRight(20);
+        contentPanel.setRoundTopLeft(20);
+        contentPanel.setRoundBottomRight(20);
+        contentPanel.setRoundBottomLeft(20);
+        contentPanel.setBackground(new Color(255, 255, 204));
+        frame.getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-        frame.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
+        loadingLabel = new JLabel("Loading..."); // Initialize loadingLabel
+        loadingLabel.setForeground(Color.WHITE);
+        loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loadingLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        frame.getContentPane().add(loadingLabel, BorderLayout.SOUTH);
+
+        frame.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
                 int arcWidth = 20;
                 int arcHeight = 20;
                 frame.setShape(new RoundRectangle2D.Double(0, 0, frame.getWidth(), frame.getHeight(), arcWidth, arcHeight));
             }
         });
-
-        chemicalsButton.addActionListener(e -> switchToChemicals());
     }
 
     private JButton createMenuButton(String text) {
@@ -97,15 +90,13 @@ public class Frame {
         button.setForeground(Color.BLACK);
         button.setFont(new Font("Arial", Font.BOLD, 14));
 
-        button.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
                 button.setForeground(Color.GRAY);
                 button.setFont(new Font("Arial", Font.BOLD, 16));
             }
 
-            @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
                 button.setForeground(Color.BLACK);
                 button.setFont(new Font("Arial", Font.BOLD, 14));
             }
@@ -115,13 +106,40 @@ public class Frame {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
 
+        // Add action listener for each button
+        switch (text) {
+            case "Home":
+                button.addActionListener(e -> switchToHome());
+                break;
+            case "Chemicals":
+                button.addActionListener(e -> switchToChemicals());
+                break;
+            case "Sites":
+                button.addActionListener(e -> switchToSites());
+                break;
+            case "Generate BOL":
+                button.addActionListener(e -> switchToGenerateBOL());
+                break;
+        }
+
         return button;
+    }
+
+    private void switchToHome() {
+        loadingLabel.setVisible(true);
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadingLabel.setVisible(false);
+                showHomeContent();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     private void switchToChemicals() {
         loadingLabel.setVisible(true);
         Timer timer = new Timer(3000, new ActionListener() {
-            @Override
             public void actionPerformed(ActionEvent e) {
                 loadingLabel.setVisible(false);
                 showChemicalsContent();
@@ -131,12 +149,68 @@ public class Frame {
         timer.start();
     }
 
+    private void switchToSites() {
+        loadingLabel.setVisible(true);
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadingLabel.setVisible(false);
+                showSitesContent();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private void switchToGenerateBOL() {
+        loadingLabel.setVisible(true);
+        Timer timer = new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadingLabel.setVisible(false);
+                showGenerateBOLContent();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private void showHomeContent() {
+        JPanel homeContentPanel = new JPanel(new BorderLayout());
+        homeContentPanel.add(new JLabel("Welcome to Home"), BorderLayout.CENTER);
+
+        contentPanel.removeAll();
+        contentPanel.add(homeContentPanel, "Home");
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+
     private void showChemicalsContent() {
-        panelDeco chemicalsPanel = new panelDeco();
-        // Customize chemicalsPanel as needed
-        frame.getContentPane().add(chemicalsPanel, "Chemicals");
-        frame.revalidate();
-        frame.repaint();
+        JPanel chemicalsContentPanel = new JPanel(); 
+        chemicalsContentPanel.add(new JLabel("Chemicals Panel"));
+
+        contentPanel.removeAll();
+        contentPanel.add(chemicalsContentPanel, "Chemicals");
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void showSitesContent() {
+        JPanel sitesContentPanel = new JPanel(); 
+        sitesContentPanel.add(new JLabel("Sites Panel"));
+
+        contentPanel.removeAll();
+        contentPanel.add(sitesContentPanel, "Sites");
+        contentPanel.revalidate();
+        contentPanel.repaint();
+    }
+
+    private void showGenerateBOLContent() {
+        JPanel generateBOLContentPanel = new JPanel(); 
+        generateBOLContentPanel.add(new JLabel("Generate BOL Panel"));
+
+        contentPanel.removeAll();
+        contentPanel.add(generateBOLContentPanel, "Generate BOL");
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 }
-// Path: src/stockXGUI/panelDeco.java
