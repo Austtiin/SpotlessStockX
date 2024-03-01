@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
@@ -68,11 +69,7 @@ public class panelDeco extends JPanel {
         super.paintComponent(g);
     }
 
-    private RoundRectangle2D createRoundedRect() {
-        int width = getWidth();
-        int height = getHeight();
-
-        return new RoundRectangle2D.Double(0, 0, width, height,
-                roundTopLeft, roundTopRight, roundBottomLeft, roundBottomRight);
+    private Rectangle createRoundedRect() {
+        return new Rectangle(0, 0, getWidth(), getHeight());
     }
 }
