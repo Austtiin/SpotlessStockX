@@ -1,30 +1,40 @@
 package mainApp;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class searchINV {
-
     private Map<String, Integer> inventory;
 
-    public searchINV() {
-    		//implement DB connection / pass in input from user
+    protected searchINV() {
         this.inventory = new HashMap<>();
-        // Populate inventory for testing
-        inventory.put("ItemA", 20);
-        inventory.put("ItemB", 15);
-        inventory.put("ItemC", 30);
+
+        inventory.put("GOLDEN KNIGHT", 20);
+        inventory.put("SURFACE ARMOUR", 6);
+        inventory.put("HELLCAT", 30);
+        inventory.put("BALSAM FROST BURST", 42);
     }
 
-    public void search() {
-        // Implement the logic for searching the inventory
-        // Display the results to the user.
-        System.out.println("Enter the item name to search:");
-        String itemName = //  get user input or any other way you want to get the item name
-        if (inventory.containsKey(itemName)) {
-            System.out.println("Stock of " + itemName + ": " + inventory.get(itemName) + " units");
-        } else {
-            System.out.println("Item not found in the inventory.");
-        }
+    protected void search(String searchQuery) {
+        // Implement search logic here
+    }
+
+    public boolean removeInventory(String item) {
+        // Implement removeInventory logic here
+        return false;
+    }
+
+    public void search1(String item) {
+        // Implement search1 logic here
+    }
+
+    public boolean addInventory(String item, int quantity) {
+        // Implement addInventory logic here
+        return false;
     }
 }
