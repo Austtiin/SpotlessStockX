@@ -2,6 +2,8 @@ package stockXGUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -9,11 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 
 public class Frame {
-
     private JFrame frame;
+    private JLabel loadingLabel;
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             try {
                 Frame window = new Frame();
                 window.frame.setUndecorated(true);
@@ -52,7 +54,7 @@ public class Frame {
         headerPanel.setRoundBottomRight(20);
         headerPanel.setRoundTopLeft(20);
         headerPanel.setRoundBottomLeft(20);
-        headerPanel.setBounds(10, 11, 200, 589);
+        headerPanel.setBounds(220, 11, 783, 83);
         headerPanel.setBackground(new Color(255, 255, 204));
         frame.getContentPane().add(headerPanel);
 
@@ -61,20 +63,22 @@ public class Frame {
         menuBar.setFloatable(false);
         menuBar.setOpaque(false);
 
-        // Insert buttons
         JButton homeButton = createMenuButton("Home");
         JButton chemicalsButton = createMenuButton("Chemicals");
-        JButton sitesButton = createMenuButton("Sites");
-        JButton generateBOLButton = createMenuButton("Generate BOL");
 
-        // Add buttons to the menuBar
         menuBar.add(homeButton);
         menuBar.add(chemicalsButton);
-        menuBar.add(sitesButton);
-        menuBar.add(generateBOLButton);
         menuBar.setBounds(0, 0, 120, mainPanel.getHeight());
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add(menuBar, BorderLayout.WEST);
+
+        loadingLabel = new JLabel("Loading...");
+        loadingLabel.setHorizontalAlignment(JLabel.CENTER);
+        loadingLabel.setVerticalAlignment(JLabel.CENTER);
+        loadingLabel.setIcon(new ImageIcon("loading.gif")); // Replace with your loading GIF
+        loadingLabel.setBounds(220, 105, 783, 495);
+        loadingLabel.setVisible(false);
+        frame.getContentPane().add(loadingLabel);
 
         frame.addComponentListener(new ComponentAdapter() {
             @Override
@@ -84,6 +88,8 @@ public class Frame {
                 frame.setShape(new RoundRectangle2D.Double(0, 0, frame.getWidth(), frame.getHeight(), arcWidth, arcHeight));
             }
         });
+
+        chemicalsButton.addActionListener(e -> switchToChemicals());
     }
 
     private JButton createMenuButton(String text) {
@@ -111,4 +117,26 @@ public class Frame {
 
         return button;
     }
+
+    private void switchToChemicals() {
+        loadingLabel.setVisible(true);
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadingLabel.setVisible(false);
+                showChemicalsContent();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private void showChemicalsContent() {
+        panelDeco chemicalsPanel = new panelDeco();
+        // Customize chemicalsPanel as needed
+        frame.getContentPane().add(chemicalsPanel, "Chemicals");
+        frame.revalidate();
+        frame.repaint();
+    }
 }
+// Path: src/stockXGUI/panelDeco.java
