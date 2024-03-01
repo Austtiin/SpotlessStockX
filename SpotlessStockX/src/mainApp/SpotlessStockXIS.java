@@ -27,9 +27,11 @@ public class SpotlessStockXIS {
         }
     }
 
+    	// Inventory method
     private void Inventory() {
         SI = new searchINV();
-
+        
+       
         while (true) {
             loggerStockX.logger.info("SpotlessStockXIS Menu Accessed.");
             System.out.println("==== Main Menu ====");
@@ -134,7 +136,8 @@ public class SpotlessStockXIS {
             loggerStockX.logger.log(Level.SEVERE, "Error in itemAdd method", e);
         }
     }
-
+    
+    // Stock Check method
     private void stockCheck() {
         System.out.println("==== Check Stock levels ====");
         try {
@@ -146,6 +149,7 @@ public class SpotlessStockXIS {
         }
     }
 
+    // Main method
     public searchINV getSI() {
         return SI;
     }
