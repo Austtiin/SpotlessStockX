@@ -1,3 +1,5 @@
+// Purpose: This class creates a GUI application with a menu on the left side and a content panel on the right side.
+
 package stockXGUI;
 
 import javax.swing.*;
@@ -12,6 +14,7 @@ public class Frame {
     private panelDeco contentPanel; // Add contentPanel declaration
 
     public static void main(String[] args) {
+    	// Run the GUI application
         SwingUtilities.invokeLater(() -> {
             try {
                 Frame window = new Frame();
@@ -23,13 +26,15 @@ public class Frame {
         });
     }
 
+    // Constructor
     /**
      * @wbp.parser.entryPoint
      */
     public Frame() {
         initialize();
     }
-
+    
+    // Initialize the contents of the frame
     private void initialize() {
         frame = new JFrame();
         frame.getContentPane().setBackground(new Color(34, 31, 32));
@@ -84,7 +89,8 @@ public class Frame {
             }
         });
     }
-
+    
+    // Create a method to create a menu button
     private JButton createMenuButton(String text) {
         JButton button = new JButton(text);
         button.setForeground(Color.BLACK);
@@ -106,7 +112,7 @@ public class Frame {
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
 
-        // Add action listener for each button
+        // Add action listener to the buttons
         switch (text) {
             case "Home":
                 button.addActionListener(e -> switchToHome());
@@ -121,10 +127,11 @@ public class Frame {
                 button.addActionListener(e -> switchToGenerateBOL());
                 break;
         }
-
+        
         return button;
     }
 
+    // Create methods to switch to different content
     private void switchToHome() {
         loadingLabel.setVisible(true);
         Timer timer = new Timer(3000, new ActionListener() {
@@ -173,6 +180,7 @@ public class Frame {
         timer.start();
     }
 
+    	// Create methods to show different content
     private void showHomeContent() {
         JPanel homeContentPanel = new JPanel(new BorderLayout());
         homeContentPanel.add(new JLabel("Welcome to Home"), BorderLayout.CENTER);
