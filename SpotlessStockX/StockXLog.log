@@ -1,13 +1,4 @@
-Mar 03, 2024 6:48:00 PM mainApp.SpotlessStockXIS run
+Mar 03, 2024 7:52:10 PM mainApp.SpotlessStockXIS run
 INFO: SpotlessStockXIS Application Started.
-Mar 03, 2024 6:48:00 PM mainApp.SpotlessStockXIS run
-SEVERE: MySQL JDBC Driver not found!
-java.lang.ClassNotFoundException: JDBC_DRIVER
-	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
-	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
-	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
-	at java.base/java.lang.Class.forName0(Native Method)
-	at java.base/java.lang.Class.forName(Class.java:375)
-	at mainApp.SpotlessStockXIS.run(SpotlessStockXIS.java:62)
-	at mainApp.Main.main(Main.java:8)
-
+Mar 03, 2024 7:52:10 PM mainApp.SpotlessStockXIS Inventory
+INFO: SpotlessStockXIS Menu Accessed.

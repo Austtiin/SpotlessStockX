@@ -5,6 +5,7 @@ import java.sql.Connection;
 // Purpose: Main application class for SpotlessStockXIS.
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,8 @@ public class SpotlessStockXIS {
     private static final String DB_URL = "jdbc:mysql://myservice-stockx-rasmussen-stockx-ajs.a.aivencloud.com:3306/your_database_name?useSSL=true&requireSSL=true";
     private static final String DB_USER = "avnadmin";
     private static final String DB_PASSWORD = "AVNS_uYYq-8I32N-sLAwgIO0";
-
+    private static final String SSL_CA_PATH = "C:\\Users\\Austin\\Downloads\\ca.pem";
+    
     // Constructor
     public SpotlessStockXIS() {
         this.INP = new Scanner(System.in);
@@ -83,7 +85,7 @@ public class SpotlessStockXIS {
                     // Option 7 - Search Inventory
                     break;
                 default:
-                    System.out.println("Let's try that again. ");
+                    System.out.println("Try Again ");
             }
         }
     }
@@ -128,8 +130,6 @@ public class SpotlessStockXIS {
     private void itemAdd() {
         System.out.println("==== Add Stock Item ====");
         try {
-            boolean valid = false;
-
             System.out.println("Enter details to add a new item:");
             System.out.println("Enter the item name:");
             String item = INP.nextLine();
@@ -137,17 +137,43 @@ public class SpotlessStockXIS {
             int quantity = INP.nextInt();
             INP.nextLine();
 
-            if (SI.addInventory(item, quantity)) {
-                valid = true;
-                System.out.println("Item added successfully!");
+            // Get a database connection
+            Connection connection = connectToDatabase();
+
+            // Check if the connection is successful
+            if (connection != null) {
+                try {
+                   // Create a SQL statement
+                    String sql = "INSERT INTO your_table_name (item_name, quantity) VALUES (?, ?)";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        preparedStatement.setString(1, item);
+                        preparedStatement.setInt(2, quantity);
+
+                        // Execute the SQL statement
+                        int rowsAffected = preparedStatement.executeUpdate();
+
+                        if (rowsAffected > 0) {
+                            System.out.println("Item added successfully!");
+                        } else {
+                            System.out.println("Item NOT added successfully!");
+                        }
+                    }
+                } catch (SQLException e) {
+                    loggerStockX.logger.log(Level.SEVERE, "Error executing SQL statement", e);
+                } finally {
+                    // Close the database connection
+                    try {
+                        connection.close();
+                    } catch (SQLException e) {
+                        loggerStockX.logger.log(Level.SEVERE, "Error closing database connection", e);
+                    }
+                }
             } else {
-                valid = false;
-                System.out.println("Try Again, Item NOT added successfully!");
+                System.out.println("Failed Connection.");
             }
 
-            valid = false;
         } catch (Exception e) {
-            loggerStockX.logger.log(Level.SEVERE, "Error in itemAdd method", e);
+            loggerStockX.logger.log(Level.SEVERE, "itemAdd Error", e);
         }
     }
 
@@ -159,7 +185,7 @@ public class SpotlessStockXIS {
             String item = INP.nextLine();
             SI.search(item);
         } catch (Exception e) {
-            loggerStockX.logger.log(Level.SEVERE, "Error in stockCheck method", e);
+            loggerStockX.logger.log(Level.SEVERE, "Error in stockCheck", e);
         }
     }
 
@@ -168,12 +194,14 @@ public class SpotlessStockXIS {
         return SI;
     }
 
+    	// Add Sales Transaction method
     public void addSalesTransaction(String customerName, String itemName, int quantity, double totalPrice) {
         SalesTransaction transaction = new SalesTransaction(customerName, itemName, quantity, totalPrice);
         salesTransactions.add(transaction);
-        System.out.println("Sales transaction added successfully!");
+        System.out.println("Sale added!");
     }
 
+    	// View Sales Transactions method
     public void viewSalesTransactions() {
         for (SalesTransaction transaction : salesTransactions) {
             System.out.println("Transaction Date: " + transaction.getTransactionDate());
@@ -185,33 +213,35 @@ public class SpotlessStockXIS {
         }
     }
 
-    // Method to establish a database connection
+    // Database connection method
     private Connection connectToDatabase() {
         Connection connection = null;
         try {
             Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            logger.info("Connected to the database!");
+            loggerStockX.logger.log(Level.SEVERE, "Connected to DB successfully.");
         } catch (ClassNotFoundException | SQLException e) {
-            logger.log(Level.SEVERE, "Error connecting to the database", e);
+        	loggerStockX.logger.log(Level.SEVERE, "Error connecting to the DB", e);
         }
+        System.out.println("DB Conntection Started");
         return connection;
     }
 
+    	// Main method
     public static void main(String[] args) {
         SpotlessStockXIS stockXIS = new SpotlessStockXIS();
         Connection connection = stockXIS.connectToDatabase();
+        
 
-        // Perform database operations using the 'connection' object
-
-        // Close the connection when done
+        // Close the database connection
         try {
             if (connection != null) {
                 connection.close();
-                System.out.println("Connection closed.");
+                System.out.println("DB Connection closed.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
     }
 }

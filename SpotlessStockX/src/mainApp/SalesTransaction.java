@@ -17,7 +17,7 @@ public class SalesTransaction { // SalesTransaction class
         this.transactionDate = new Date(); // Date of the transaction
     }
 
-    // Getters
+   
     public String getCustomerName() {
         return customerName;
     }
