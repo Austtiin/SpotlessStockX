@@ -1,3 +1,5 @@
 /bin/
 /.metadata/
 .metadata/version.ini
+.metadata/.log
+.metadata
