@@ -1,20 +1,13 @@
 // Purpose: This class is responsible for searching the inventory.
-
 package mainApp;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-// This class is responsible for searching the inventory
-public class searchINV {
+public class SearchInventory {
     private Map<String, Integer> inventory;
 
-    protected searchINV() {
+    public SearchInventory() {
         this.inventory = new HashMap<>();
 
         inventory.put("GOLDEN KNIGHT", 20);
@@ -23,12 +16,12 @@ public class searchINV {
         inventory.put("BALSAM FROST BURST", 42);
     }
 
-    protected void search(String searchQuery) {
+    public void search(String item) {
         // Implement search logic here
     }
 
     public boolean removeInventory(String item) {
-        // Implement removeInventory logic here
+        // Implement removeInventory logic here (possibly move to DatabaseConnector)
         return false;
     }
 
@@ -37,7 +30,7 @@ public class searchINV {
     }
 
     public boolean addInventory(String item, int quantity) {
-        // Implement addInventory logic here
+        // Implement addInventory logic here (possibly move to DatabaseConnector)
         return false;
     }
 }

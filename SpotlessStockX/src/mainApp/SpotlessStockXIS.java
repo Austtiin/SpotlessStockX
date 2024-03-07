@@ -1,55 +1,42 @@
 package mainApp;
 
-import java.sql.Connection;
-
-// Purpose: Main application class for SpotlessStockXIS.
-
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 
-import logger.loggerStockX;
+import logger.LoggerStockX;
 
 public class SpotlessStockXIS {
-    private Scanner INP;
-    private searchINV SI;
-    private stockShow SS;
+    private Scanner scanner;
+    private SearchInventory inventoryManager;
+    private StockShow stockShow;
+    private DatabaseConnector databaseConnector;
     private List<SalesTransaction> salesTransactions;
 
-    // Database connection parameters for MySQL
-    private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String DB_URL = "jdbc:mysql://myservice-stockx-rasmussen-stockx-ajs.a.aivencloud.com:3306/your_database_name?useSSL=true&requireSSL=true";
-    private static final String DB_USER = "avnadmin";
-    private static final String DB_PASSWORD = "AVNS_uYYq-8I32N-sLAwgIO0";
-    private static final String SSL_CA_PATH = "C:\\Users\\Austin\\Downloads\\ca.pem";
-    
-    // Constructor
     public SpotlessStockXIS() {
-        this.INP = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
+        this.inventoryManager = new SearchInventory();
+        this.stockShow = new StockShow();
+        this.databaseConnector = new DatabaseConnector();
         this.salesTransactions = new ArrayList<>();
     }
 
     public void run() {
         try {
-            loggerStockX.logger.info("SpotlessStockXIS Application Started.");
+            LoggerStockX.logger.info("SpotlessStockXIS Application Started.");
             System.out.println("Welcome to SpotlessStockX - Your go-to chemical inventory system!");
-            Inventory();
+            inventoryManager();
         } catch (Exception e) {
-            loggerStockX.logger.log(Level.SEVERE, "Error in SpotlessStockXIS application", e);
+            LoggerStockX.logger.log(Level.SEVERE, "Error in SpotlessStockXIS application", e);
         } finally {
-            INP.close();
+            scanner.close();
         }
     }
 
-    // Inventory method
-    private void Inventory() {
-        SI = new searchINV();
+    private void inventoryManager() {
         while (true) {
-            loggerStockX.logger.info("SpotlessStockXIS Menu Accessed.");
+            LoggerStockX.logger.info("SpotlessStockXIS Menu Accessed.");
             System.out.println("==== Main Menu ====");
             System.out.println("Select an option:");
             System.out.println("1. Add Item");
@@ -58,9 +45,10 @@ public class SpotlessStockXIS {
             System.out.println("4. Delete Stock Item");
             System.out.println("5. View Delivery Sites");
             System.out.println("6. Export BOL Report");
+            System.out.println("7. Search Inventory");
 
-            int choice = INP.nextInt();
-            INP.nextLine();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
 
             switch (choice) {
                 case 1:
@@ -82,7 +70,7 @@ public class SpotlessStockXIS {
                     exportBOL();
                     break;
                 case 7:
-                    // Option 7 - Search Inventory
+                    searchInventory();
                     break;
                 default:
                     System.out.println("Try Again ");
@@ -91,117 +79,72 @@ public class SpotlessStockXIS {
     }
 
     private void exportBOL() {
+        LoggerStockX.logger.info("==== Export BOL Report ====");
         // TODO Implement Export BOL
-        System.out.println("==== Export BOL Report ====");
     }
 
     private void sitesView() {
+        LoggerStockX.logger.info("==== View Delivery Sites ====");
         // TODO Implement Site View - Waiting for DB
-        System.out.println("==== View Delivery Sites ====");
     }
 
     private void stockDelete() {
-        System.out.println("==== Delete Stock ====");
-        try {
-            boolean valid = false;
+        LoggerStockX.logger.info("==== Delete Stock ====");
+        boolean valid = false;
 
-            System.out.println("Enter the item name to delete:");
-            String item = INP.nextLine();
+        System.out.println("Enter the item name to delete:");
+        String item = scanner.nextLine();
 
-            if (SI.removeInventory(item)) {
-                valid = true;
-                System.out.println("Item deleted successfully!");
-            } else {
-                valid = false;
-                System.out.println("Try Again, Item NOT deleted successfully!");
-            }
-
+        if (databaseConnector.removeInventory(item)) {
+            valid = true;
+            System.out.println("Item deleted successfully!");
+        } else {
             valid = false;
-        } catch (Exception e) {
-            loggerStockX.logger.log(Level.SEVERE, "Error in stockDelete method", e);
+            System.out.println("Try Again, Item NOT deleted successfully!");
         }
+
+        valid = false;
     }
 
     private void stockUpdate() {
+        LoggerStockX.logger.info("==== Update Stock ====");
         // TODO implement Update Stock
-        System.out.println("==== Update Stock ====");
     }
 
     private void itemAdd() {
-        System.out.println("==== Add Stock Item ====");
+        LoggerStockX.logger.info("==== Add Stock Item ====");
         try {
             System.out.println("Enter details to add a new item:");
             System.out.println("Enter the item name:");
-            String item = INP.nextLine();
+            String item = scanner.nextLine();
             System.out.println("Enter the quantity:");
-            int quantity = INP.nextInt();
-            INP.nextLine();
+            int quantity = scanner.nextInt();
+            scanner.nextLine();
 
-            // Get a database connection
-            Connection connection = connectToDatabase();
-
-            // Check if the connection is successful
-            if (connection != null) {
-                try {
-                   // Create a SQL statement
-                    String sql = "INSERT INTO your_table_name (item_name, quantity) VALUES (?, ?)";
-                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                        preparedStatement.setString(1, item);
-                        preparedStatement.setInt(2, quantity);
-
-                        // Execute the SQL statement
-                        int rowsAffected = preparedStatement.executeUpdate();
-
-                        if (rowsAffected > 0) {
-                            System.out.println("Item added successfully!");
-                        } else {
-                            System.out.println("Item NOT added successfully!");
-                        }
-                    }
-                } catch (SQLException e) {
-                    loggerStockX.logger.log(Level.SEVERE, "Error executing SQL statement", e);
-                } finally {
-                    // Close the database connection
-                    try {
-                        connection.close();
-                    } catch (SQLException e) {
-                        loggerStockX.logger.log(Level.SEVERE, "Error closing database connection", e);
-                    }
-                }
-            } else {
-                System.out.println("Failed Connection.");
-            }
-
+            databaseConnector.addItem(item, quantity);
         } catch (Exception e) {
-            loggerStockX.logger.log(Level.SEVERE, "itemAdd Error", e);
+            LoggerStockX.logger.log(Level.SEVERE, "itemAdd Error", e);
         }
     }
 
- // Stock Check method
     private void stockCheck() {
-        System.out.println("==== Check Stock levels ====");
-        try {
-            System.out.println("Enter the item name to search:");
-            String item = INP.nextLine();
-            SI.search(item);
-        } catch (Exception e) {
-            loggerStockX.logger.log(Level.SEVERE, "Error in stockCheck", e);
-        }
+        LoggerStockX.logger.info("==== Check Stock levels ====");
+        System.out.println("Enter the item name to search:");
+        String item = scanner.nextLine();
+        inventoryManager.search(item);
     }
 
-    // Main method
-    public searchINV getSI() {
-        return SI;
+    private void searchInventory() {
+        LoggerStockX.logger.info("==== Search Inventory ====");
+        // TODO: Implement Search Inventory logic
     }
 
-    	// Add Sales Transaction method
     public void addSalesTransaction(String customerName, String itemName, int quantity, double totalPrice) {
         SalesTransaction transaction = new SalesTransaction(customerName, itemName, quantity, totalPrice);
         salesTransactions.add(transaction);
         System.out.println("Sale added!");
     }
 
-    	// View Sales Transactions method
     public void viewSalesTransactions() {
         for (SalesTransaction transaction : salesTransactions) {
             System.out.println("Transaction Date: " + transaction.getTransactionDate());
@@ -213,35 +156,8 @@ public class SpotlessStockXIS {
         }
     }
 
-    // Database connection method
-    private Connection connectToDatabase() {
-        Connection connection = null;
-        try {
-            Class.forName(JDBC_DRIVER);
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-            loggerStockX.logger.log(Level.SEVERE, "Connected to DB successfully.");
-        } catch (ClassNotFoundException | SQLException e) {
-        	loggerStockX.logger.log(Level.SEVERE, "Error connecting to the DB", e);
-        }
-        System.out.println("DB Conntection Started");
-        return connection;
-    }
-
-    	// Main method
     public static void main(String[] args) {
         SpotlessStockXIS stockXIS = new SpotlessStockXIS();
-        Connection connection = stockXIS.connectToDatabase();
-        
-
-        // Close the database connection
-        try {
-            if (connection != null) {
-                connection.close();
-                System.out.println("DB Connection closed.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
+        stockXIS.run();
     }
 }
