@@ -78,38 +78,10 @@ public class SpotlessStockXIS {
         }
     }
 
-    private void exportBOL() {
-        LoggerStockX.logger.info("==== Export BOL Report ====");
-        // TODO Implement Export BOL
-    }
+  
 
-    private void sitesView() {
-        LoggerStockX.logger.info("==== View Delivery Sites ====");
-        // TODO Implement Site View - Waiting for DB
-    }
 
-    private void stockDelete() {
-        LoggerStockX.logger.info("==== Delete Stock ====");
-        boolean valid = false;
-
-        System.out.println("Enter the item name to delete:");
-        String item = scanner.nextLine();
-
-        if (databaseConnector.removeInventory(item)) {
-            valid = true;
-            System.out.println("Item deleted successfully!");
-        } else {
-            valid = false;
-            System.out.println("Try Again, Item NOT deleted successfully!");
-        }
-
-        valid = false;
-    }
-
-    private void stockUpdate() {
-        LoggerStockX.logger.info("==== Update Stock ====");
-        // TODO implement Update Stock
-    }
+    
 
     private void itemAdd() {
         LoggerStockX.logger.info("==== Add Stock Item ====");
@@ -133,12 +105,57 @@ public class SpotlessStockXIS {
         stockShow.showStock();
         
     }
+    
+    private void stockUpdate() {
+        LoggerStockX.logger.info("==== Update Stock ====");
+        // TODO implement Update Stock
+    }
+    
+    private void stockDelete() {
+        LoggerStockX.logger.info("==== Delete Stock ====");
+        boolean valid = false;
 
+        System.out.println("Enter the item name to delete:");
+        String item = scanner.nextLine();
+
+        if (databaseConnector.removeInventory(item)) {
+            valid = true;
+            System.out.println("Item deleted successfully!");
+        } else {
+            valid = false;
+            System.out.println("Try Again, Item NOT deleted successfully!");
+        }
+
+        valid = false;
+    }
+    
+    
+    private void sitesView() {
+        LoggerStockX.logger.info("==== View Delivery Sites ====");
+        // TODO Implement Site View - Waiting for DB
+       
+    }
+    
+    
+    
+    
+    private void exportBOL() {
+        LoggerStockX.logger.info("==== Export BOL Report ====");
+        // TODO Implement Export BOL
+    }
+
+    
+    
+    
     private void searchInventory() {
         LoggerStockX.logger.info("==== Search Inventory ====");
         // TODO: Implement Search Inventory logic
     }
 
+    
+    
+    
+    
     public void addSalesTransaction(String customerName, String itemName, int quantity, double totalPrice) {
         SalesTransaction transaction = new SalesTransaction(customerName, itemName, quantity, totalPrice);
         salesTransactions.add(transaction);
