@@ -128,7 +128,8 @@ public class SpotlessStockXIS {
     }
 
     private void stockCheck() {
-        LoggerStockX.logger.info("==== Check Stock levels ====");
+    	System.out.println("==== Check Stock levels ====");
+        LoggerStockX.logger.info("Checking Stock Levels...");
         stockShow.showStock();
         
     }
