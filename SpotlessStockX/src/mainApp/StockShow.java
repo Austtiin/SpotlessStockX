@@ -1,7 +1,11 @@
+// Purpose: This class is used to show the stock of the chemicals in the inventory.
+
 package mainApp;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -9,31 +13,50 @@ import java.util.logging.Level;
 import logger.LoggerStockX;
 
 public class StockShow {
+	// Scanner for user input
     private Scanner scanner;
-    private SearchInventory inventoryManager;
-
-    // Database connection parameters (update with your details)
+    
+    // Database credentials
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DB_URL = "jdbc:mysql://your_database_url:your_port/your_database_name";
     private static final String DB_USER = "your_database_user";
     private static final String DB_PASSWORD = "your_database_password";
 
+    // Constructor
     public StockShow() {
         this.scanner = new Scanner(System.in);
-        this.inventoryManager = new SearchInventory();
     }
 
     public void showStock() {
-        // TODO: Implement logic to display stock information from the database
+    	
+		try (Connection connection = connectToDatabase()) {
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Chemcials");
+			ResultSet resultSet = statement.executeQuery();
+			
+			while (resultSet.next()) {
+				System.out.println("ChemicalID: " + 
+						resultSet.getInt("id") + 
+							", Chemical Name: " + 
+							resultSet.getString("ChemicalName") + 
+								", Container Size: " + 
+								resultSet.getString("ContainerSize") +
+										", Quantity: " + 
+										resultSet.getString("CurrentInventory"));
+			}
+			
+		} catch (SQLException e) {
+			LoggerStockX.logger.log(Level.SEVERE, "Error in Showing The Stock", e);
+		}
+		
+		closeResources();
     }
 
     private Connection connectToDatabase() {
         Connection connection = null;
         try {
-            Class.forName(JDBC_DRIVER);
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
             LoggerStockX.logger.info("Connected to DB successfully.");
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error connecting to the DB", e);
         }
         LoggerStockX.logger.info("DB Connection Started");

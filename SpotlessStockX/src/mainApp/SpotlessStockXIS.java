@@ -129,9 +129,8 @@ public class SpotlessStockXIS {
 
     private void stockCheck() {
         LoggerStockX.logger.info("==== Check Stock levels ====");
-        System.out.println("Enter the item name to search:");
-        String item = scanner.nextLine();
-        inventoryManager.search(item);
+        stockShow.showStock();
+        
     }
 
     private void searchInventory() {
