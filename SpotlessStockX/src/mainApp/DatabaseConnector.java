@@ -15,18 +15,26 @@ public class DatabaseConnector {
 	    private static String password = "AVNS_uYYq-8I32N-sLAwgIO0";
 	    private static String databaseName = "defaultdb";
 	    
-    public Connection connectToDatabase() {
-        Connection connection = null;
-        try {
-  
-            connection = DriverManager.getConnection(host, userName, password);
-            LoggerStockX.logger.info("Connected to DB successfully.");
-        } catch (SQLException e) {
-            LoggerStockX.logger.log(Level.SEVERE, "Error connecting to the DB", e);
-        }
-        LoggerStockX.logger.info("DB Connection Started");
-        return connection;
-    }
+	    public Connection connectToDatabase() {
+	        Connection connection = null;
+	        try {
+	            String jdbcUrl = "jdbc:mysql://" + host + ":" + port + "/" + databaseName;
+	            connection = DriverManager.getConnection(jdbcUrl, userName, password);
+
+	            if (connection != null) {
+	                LoggerStockX.logger.info("Connected to DB successfully.");
+	            } else {
+	                LoggerStockX.logger.warning("Connection to DB is null.");
+	            }
+	        } catch (SQLException e) {
+	            LoggerStockX.logger.log(Level.SEVERE, "Error connecting to the DB", e);
+	            return null;  // Return null in case of an exception
+	        }
+
+	        LoggerStockX.logger.info("DB Connection Started");
+	        return connection;
+	    }
+
 
     public void addItem(String item, int quantity) {
         Connection connection = connectToDatabase();
@@ -56,6 +64,18 @@ public class DatabaseConnector {
             }
         } else {
             LoggerStockX.logger.info("Failed Connection.");
+        }
+    }
+    
+    
+    
+    public void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                LoggerStockX.logger.log(Level.SEVERE, "Error closing database connection", e);
+            }
         }
     }
 }

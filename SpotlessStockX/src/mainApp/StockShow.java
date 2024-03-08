@@ -14,40 +14,37 @@ import logger.LoggerStockX;
 import mainApp.DatabaseConnector;
 
 public class StockShow {
-	// Scanner for user input
+	// Initialize the scanner and database connection
     private Scanner scanner;
+    private DatabaseConnector dbConn;
 
     // Constructor
-    public StockShow() {
+    public StockShow(DatabaseConnector dbConn) {
         this.scanner = new Scanner(System.in);
-        
+        this.dbConn = dbConn;
     }
 
-    public void showStock() {
-    	// Database connection
-    	DatabaseConnector dbConn = new DatabaseConnector();
-    	
-    	// Display the stock
-		try (Connection connection = dbConn.connectToDatabase()) {
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM Chemcials");
-			ResultSet resultSet = statement.executeQuery();
-			
-			while (resultSet.next()) {
-				System.out.println("ChemicalID: " + 
-						resultSet.getInt("id") + 
-							", Chemical Name: " + 
-							resultSet.getString("ChemicalName") + 
-								", Container Size: " + 
-								resultSet.getString("ContainerSize") +
-										", Quantity: " + 
-										resultSet.getString("CurrentInventory"));
-			}
-			
-		} catch (SQLException e) {
-			LoggerStockX.logger.log(Level.SEVERE, "Error in Showing The Stock", e);
-		}
-		
-		closeResources();
+    public void showStock(DatabaseConnector dbConn) {
+        // Database connection
+        try (final Connection connection = dbConn.connectToDatabase()) {
+            if (connection != null) {
+            	PreparedStatement statement = connection.prepareStatement("SELECT * FROM Chemicals");
+                ResultSet resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    System.out.println("ChemicalID: " + resultSet.getInt("ChemicalId") +
+                            ", Chemical Name: " + resultSet.getString("ChemicalName") +
+                            ", Container Size: " + resultSet.getString("ContainerSize") +
+                            ", Quantity: " + resultSet.getString("CurrentInventory"));
+                }
+            } else {
+                System.out.println("Error Show All Stock");
+            }
+        } catch (SQLException e) {
+            LoggerStockX.logger.log(Level.SEVERE, "Error in Showing The Stock", e);
+        } finally {
+            closeResources();
+        }
     }
 
     private void closeResources() {
@@ -55,7 +52,44 @@ public class StockShow {
         if (scanner != null) {
             scanner.close();
         }
+        
+    }
+    
+    
+    // Method to show stock per gallon
+    public void perGallonShow(int gallon) {
+    	// Database connection
+        try (final Connection connection = dbConn.connectToDatabase()) {
+        	// Check if the connection is not null
+            if (connection != null) {
+            	// Query to show the stock of chemicals per gallon
+            	String query = "SELECT * FROM Chemicals WHERE ContainerSize = '" + gallon + "'";
+            	// Prepare the statement
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                	// Set the gallon value
+                	//Helps to prevent SQL injection
+                    statement.setInt(1, gallon);
+
+                    // Execute the query
+                    try (ResultSet resultSet = statement.executeQuery()) {
+                        while (resultSet.next()) {
+                        	// Print the results
+                            System.out.println("ChemicalID: " + resultSet.getInt("ChemicalId") +
+                                    ", Chemical Name: " + resultSet.getString("ChemicalName") +
+                                    	", Container Size: " + resultSet.getString("ContainerSize") +
+                                    		", Quantity: " + resultSet.getString("CurrentInventory"));
+                        }
+                    }
+                }
+                
+            } else {
+                System.out.println("Error: Database connection is null.");
+            }
+        } catch (SQLException e) {
+            LoggerStockX.logger.log(Level.SEVERE, "ERROR SHOWING CHEMICALS", e);
+        } finally {
+            closeResources();
+        }
     }
 
-
-}
+    }
