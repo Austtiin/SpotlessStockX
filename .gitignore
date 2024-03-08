@@ -3,3 +3,10 @@
 .metadata/version.ini
 .metadata/.log
 .metadata
+.metadata/.log
+.metadata/.plugins/com.genuitec.eclipse.devstyle/recent.json
+.metadata/.plugins/org.eclipse.core.runtime/.settings/com.genuitec.eclipse.theming.ui.prefs
+.metadata/.plugins/org.eclipse.core.runtime/.settings/org.eclipse.jdt.ui.prefs
+.metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
+.metadata/.plugins/org.eclipse.m2e.logback/0.log
+.metadata/version.ini
