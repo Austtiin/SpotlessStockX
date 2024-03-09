@@ -23,7 +23,7 @@ public class AddItem {
         	// Check if the connection is not null
             if (connection != null) {
             	// Query to show the stock of chemicals per gallon
-            	String query = "SELECT * FROM CurrentInventory";
+            	String query = "SELECT * FROM CurrentInventory;";
             	// Prepare the statement
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                 	
@@ -44,7 +44,7 @@ public class AddItem {
                 System.out.println("Error: Database connection is null.");
             }
         } catch (SQLException e) {
-            LoggerStockX.logger.log(Level.SEVERE, "ERROR SHOWING CHEMICALS", e);
+            LoggerStockX.logger.log(Level.SEVERE, "ERROR ADDING TO INVENTORY", e);
         } finally {
             closeResources();
         }

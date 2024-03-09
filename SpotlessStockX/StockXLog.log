@@ -1,30 +1,21 @@
-Mar 09, 2024 2:42:53 PM mainApp.SpotlessStockXIS run
+Mar 09, 2024 3:25:51 PM mainApp.SpotlessStockXIS run
 INFO: SpotlessStockXIS Application Started.
-Mar 09, 2024 2:42:53 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 09, 2024 3:25:51 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
-Mar 09, 2024 2:42:57 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking 5 Gallon Stock Levels...
-Mar 09, 2024 2:42:57 PM mainApp.DatabaseConnector connectToDatabase
+Mar 09, 2024 3:25:52 PM mainApp.SpotlessStockXIS itemAdd
+INFO: ==== Add Stock Item ====
+Mar 09, 2024 3:25:54 PM mainApp.SpotlessStockXIS itemAdd
+INFO: Checking Current Inventory...
+Mar 09, 2024 3:25:55 PM mainApp.DatabaseConnector connectToDatabase
 INFO: Connected to DB successfully.
-Mar 09, 2024 2:42:57 PM mainApp.DatabaseConnector connectToDatabase
+Mar 09, 2024 3:25:55 PM mainApp.DatabaseConnector connectToDatabase
 INFO: DB Connection Started
-Mar 09, 2024 2:42:59 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking 15 Gallon Stock Levels...
-Mar 09, 2024 2:42:59 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 09, 2024 2:42:59 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 09, 2024 2:43:01 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking 30 Gallon Stock Levels...
-Mar 09, 2024 2:43:01 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 09, 2024 2:43:01 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 09, 2024 2:43:02 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking 55 Gallon Stock Levels...
-Mar 09, 2024 2:43:02 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 09, 2024 2:43:02 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 09, 2024 2:43:04 PM mainApp.SpotlessStockXIS inventoryManager
-INFO: SpotlessStockXIS Menu Accessed.
+Mar 09, 2024 3:26:20 PM mainApp.SpotlessStockXIS run
+SEVERE: Error in SpotlessStockXIS application
+java.lang.NullPointerException: Cannot invoke "mainApp.DatabaseConnector.connectToDatabase()" because "mainApp.AddItem.dbConn" is null
+	at mainApp.AddItem.itemAdd(AddItem.java:57)
+	at mainApp.SpotlessStockXIS.itemAdd(SpotlessStockXIS.java:130)
+	at mainApp.SpotlessStockXIS.inventoryManager(SpotlessStockXIS.java:60)
+	at mainApp.SpotlessStockXIS.run(SpotlessStockXIS.java:32)
+	at mainApp.Main.main(Main.java:9)
+

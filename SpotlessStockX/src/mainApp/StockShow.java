@@ -3,7 +3,6 @@
 package mainApp;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,17 +10,16 @@ import java.util.Scanner;
 import java.util.logging.Level;
 
 import logger.LoggerStockX;
-import mainApp.DatabaseConnector;
 
 public class StockShow {
 	// Initialize the scanner and database connection
-    private Scanner scanner;
-    private DatabaseConnector dbConn;
+    private static Scanner scanner;
+    private static DatabaseConnector dbConn;
 
     // Constructor
     public StockShow(DatabaseConnector dbConn) {
         // Reminder to not initialize / start a new scanner here
-        this.dbConn = dbConn;
+        StockShow.dbConn = dbConn;
     }
 
     public void showStock(DatabaseConnector dbConn) {

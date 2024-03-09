@@ -115,16 +115,24 @@ public class SpotlessStockXIS {
                         case 1:
                         	System.out.println("Checking Current Inventory...");
                         	LoggerStockX.logger.info("Checking Current Inventory...");
-                            stockShow.showStock(databaseConnector);
+                            AddItem.ShowCurrent(databaseConnector);
                             break;
                         case 2:
                         	System.out.println("Please Type the Chemical Name:");
                         	String chemicalName = scanner.nextLine();
-                        	System.out.println("Please Type the Container Size:");
+                        	System.out.println("Please Type the Container Size: (5, 15, 30, 55)");
                         	String containerSize = scanner.nextLine();
-                        	System.out.println("Please Type the Current Inventory:");
-                        	String currentInventory = scanner.nextLine();
-							AddItem.itemAdd(chemicalName, containerSize, currentInventory);
+                        	
+							if (containerSize.equals("5") || containerSize.equals("15") || containerSize.equals("30")
+									|| containerSize.equals("55")) {
+								System.out.println("Please Type the Current Inventory:");
+								String currentInventory = scanner.nextLine();
+								AddItem.itemAdd(chemicalName, containerSize, currentInventory);
+							} else {
+								System.out.println("Invalid Container Size. Please try again.");
+								break;
+							}
+							
                             break;
                         case 3:
                             break;
@@ -146,7 +154,7 @@ public class SpotlessStockXIS {
         } catch (IllegalStateException | NoSuchElementException e) {
             System.out.println("Error reading input: " + e.getMessage());
         } finally {
-            //scanner.close();  // <-- This line is causing the issue
+            //scanner.close();
         }
     }
     
