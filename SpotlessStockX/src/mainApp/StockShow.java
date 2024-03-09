@@ -20,7 +20,7 @@ public class StockShow {
 
     // Constructor
     public StockShow(DatabaseConnector dbConn) {
-        this.scanner = new Scanner(System.in);
+        // Reminder to not initialize / start a new scanner here
         this.dbConn = dbConn;
     }
 
@@ -63,12 +63,10 @@ public class StockShow {
         	// Check if the connection is not null
             if (connection != null) {
             	// Query to show the stock of chemicals per gallon
-            	String query = "SELECT * FROM Chemicals WHERE ContainerSize = '" + gallon + "'";
+            	String query = "SELECT * FROM Chemicals WHERE ContainerSize = " + gallon;
             	// Prepare the statement
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                	// Set the gallon value
-                	//Helps to prevent SQL injection
-                    statement.setInt(1, gallon);
+                	
 
                     // Execute the query
                     try (ResultSet resultSet = statement.executeQuery()) {

@@ -16,6 +16,7 @@ public class SpotlessStockXIS {
     private StockShow stockShow;
     private DatabaseConnector databaseConnector;
     private List<SalesTransaction> salesTransactions;
+    private AddItem addItem;
 
     public SpotlessStockXIS() {
         this.scanner = new Scanner(System.in);
@@ -97,18 +98,60 @@ public class SpotlessStockXIS {
     private void itemAdd() {
         LoggerStockX.logger.info("==== Add Stock Item ====");
         try {
-            System.out.println("Enter details to add a new item:");
-            System.out.println("Enter the item name:");
-            String item = scanner.nextLine();
-            System.out.println("Enter the quantity:");
-            int quantity = scanner.nextInt();
-            scanner.nextLine();
+            boolean exit = false;
 
-            databaseConnector.addItem(item, quantity);
-        } catch (Exception e) {
-            LoggerStockX.logger.log(Level.SEVERE, "itemAdd Error", e);
+            while (!exit) {
+                System.out.println("==== Adding Item menu ====");
+                System.out.println("Select an option:");
+                System.out.println("1. Show Current Inventory");
+                System.out.println("2. Add Item to Inventory");
+                System.out.println("3. Exit");
+
+                if (scanner.hasNextInt()) {
+                    int choice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (choice) {
+                        case 1:
+                        	System.out.println("Checking Current Inventory...");
+                        	LoggerStockX.logger.info("Checking Current Inventory...");
+                            stockShow.showStock(databaseConnector);
+                            break;
+                        case 2:
+                        	System.out.println("Please Type the Chemical Name:");
+                        	String chemicalName = scanner.nextLine();
+                        	System.out.println("Please Type the Container Size:");
+                        	String containerSize = scanner.nextLine();
+                        	System.out.println("Please Type the Current Inventory:");
+                        	String currentInventory = scanner.nextLine();
+							AddItem.itemAdd(chemicalName, containerSize, currentInventory);
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please try again.");
+                            break;
+                    }
+
+                    if (choice == 3) {
+                        exit = true; // Exit the loop if the user chooses option 6
+                    }
+                } else {
+                	// Consume the invalid input
+                    System.out.println("Invalid input. Please enter a valid integer.");
+                    scanner.nextLine();
+                }
+            }
+            //scanner.close();
+        } catch (IllegalStateException | NoSuchElementException e) {
+            System.out.println("Error reading input: " + e.getMessage());
+        } finally {
+            //scanner.close();  // <-- This line is causing the issue
         }
     }
+    
+    
+
 
     private void stockCheck() {
         try {
@@ -174,7 +217,7 @@ public class SpotlessStockXIS {
         } catch (IllegalStateException | NoSuchElementException e) {
             System.out.println("Error reading input: " + e.getMessage());
         } finally {
-            //scanner.close();  // <-- This line is causing the issue
+            //scanner.close();
         }
     }
 

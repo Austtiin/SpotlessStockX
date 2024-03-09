@@ -1,12 +1,30 @@
-Mar 07, 2024 10:31:01 PM mainApp.SpotlessStockXIS run
+Mar 09, 2024 2:42:53 PM mainApp.SpotlessStockXIS run
 INFO: SpotlessStockXIS Application Started.
-Mar 07, 2024 10:31:01 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 09, 2024 2:42:53 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
-Mar 07, 2024 10:31:04 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking Stock Levels...
-Mar 07, 2024 10:31:05 PM mainApp.DatabaseConnector connectToDatabase
+Mar 09, 2024 2:42:57 PM mainApp.SpotlessStockXIS stockCheck
+INFO: Checking 5 Gallon Stock Levels...
+Mar 09, 2024 2:42:57 PM mainApp.DatabaseConnector connectToDatabase
 INFO: Connected to DB successfully.
-Mar 07, 2024 10:31:05 PM mainApp.DatabaseConnector connectToDatabase
+Mar 09, 2024 2:42:57 PM mainApp.DatabaseConnector connectToDatabase
 INFO: DB Connection Started
-Mar 07, 2024 10:31:05 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 09, 2024 2:42:59 PM mainApp.SpotlessStockXIS stockCheck
+INFO: Checking 15 Gallon Stock Levels...
+Mar 09, 2024 2:42:59 PM mainApp.DatabaseConnector connectToDatabase
+INFO: Connected to DB successfully.
+Mar 09, 2024 2:42:59 PM mainApp.DatabaseConnector connectToDatabase
+INFO: DB Connection Started
+Mar 09, 2024 2:43:01 PM mainApp.SpotlessStockXIS stockCheck
+INFO: Checking 30 Gallon Stock Levels...
+Mar 09, 2024 2:43:01 PM mainApp.DatabaseConnector connectToDatabase
+INFO: Connected to DB successfully.
+Mar 09, 2024 2:43:01 PM mainApp.DatabaseConnector connectToDatabase
+INFO: DB Connection Started
+Mar 09, 2024 2:43:02 PM mainApp.SpotlessStockXIS stockCheck
+INFO: Checking 55 Gallon Stock Levels...
+Mar 09, 2024 2:43:02 PM mainApp.DatabaseConnector connectToDatabase
+INFO: Connected to DB successfully.
+Mar 09, 2024 2:43:02 PM mainApp.DatabaseConnector connectToDatabase
+INFO: DB Connection Started
+Mar 09, 2024 2:43:04 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
