@@ -6,86 +6,56 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.logging.Level;
 
 import logger.LoggerStockX;
 
 public class StockShow {
-	// Initialize the scanner and database connection
-    private static Scanner scanner;
     private static DatabaseConnector dbConn;
 
-    // Constructor
     public StockShow(DatabaseConnector dbConn) {
-        // Reminder to not initialize / start a new scanner here
         StockShow.dbConn = dbConn;
     }
 
-    public void showStock(DatabaseConnector dbConn) {
-        // Database connection
+    public void showStock() {
         try (final Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
-            	PreparedStatement statement = connection.prepareStatement("SELECT * FROM Chemicals");
+                PreparedStatement statement = connection.prepareStatement("SELECT * FROM CurrentInventory");
                 ResultSet resultSet = statement.executeQuery();
 
                 while (resultSet.next()) {
-                    System.out.println("ChemicalID: " + resultSet.getInt("ChemicalId") +
+                    System.out.println("ChemicalID: " + resultSet.getInt("InventoryID") +
                             ", Chemical Name: " + resultSet.getString("ChemicalName") +
                             ", Container Size: " + resultSet.getString("ContainerSize") +
-                            ", Quantity: " + resultSet.getString("CurrentInventory"));
+                            ", Quantity: " + resultSet.getString("CurrentQuantity"));
                 }
             } else {
-                System.out.println("Error Show All Stock");
+                System.out.println("Error Showing Current Inventory");
             }
         } catch (SQLException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error in Showing The Stock", e);
-        } finally {
-            closeResources();
         }
     }
 
-    private void closeResources() {
-        // Closing resources if needed
-        if (scanner != null) {
-            scanner.close();
-        }
-        
-    }
-    
-    
-    // Method to show stock per gallon
     public void perGallonShow(int gallon) {
-    	// Database connection
         try (final Connection connection = dbConn.connectToDatabase()) {
-        	// Check if the connection is not null
             if (connection != null) {
-            	// Query to show the stock of chemicals per gallon
-            	String query = "SELECT * FROM Chemicals WHERE ContainerSize = " + gallon;
-            	// Prepare the statement
+                String query = "SELECT * FROM CurrentInventory WHERE ContainerSize = " + gallon;
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                	
-
-                    // Execute the query
                     try (ResultSet resultSet = statement.executeQuery()) {
                         while (resultSet.next()) {
-                        	// Print the results
-                            System.out.println("ChemicalID: " + resultSet.getInt("ChemicalId") +
+                            System.out.println("ChemicalID: " + resultSet.getInt("InventoryID") +
                                     ", Chemical Name: " + resultSet.getString("ChemicalName") +
-                                    	", Container Size: " + resultSet.getString("ContainerSize") +
-                                    		", Quantity: " + resultSet.getString("CurrentInventory"));
+                                    ", Container Size: " + resultSet.getString("ContainerSize") +
+                                    ", Quantity: " + resultSet.getString("CurrentQuantity"));
                         }
                     }
                 }
-                
             } else {
                 System.out.println("Error: Database connection is null.");
             }
         } catch (SQLException e) {
             LoggerStockX.logger.log(Level.SEVERE, "ERROR SHOWING CHEMICALS", e);
-        } finally {
-            closeResources();
         }
     }
-
-    }
+}

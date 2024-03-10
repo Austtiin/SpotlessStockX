@@ -10,92 +10,57 @@ import java.util.logging.Level;
 import logger.LoggerStockX;
 
 public class AddItem {
-	private static Scanner scanner;
-    private static DatabaseConnector dbConn;
-    
-	public AddItem(DatabaseConnector dbConn) {
-		AddItem.dbConn = dbConn;
-	}
+    private DatabaseConnector dbConn;
 
-	
-	public static void ShowCurrent (DatabaseConnector dbConn) {
-		try (final Connection connection = dbConn.connectToDatabase()) {
-        	// Check if the connection is not null
+    public AddItem(DatabaseConnector dbConn) {
+        this.dbConn = dbConn;
+    }
+
+    public void ShowCurrent() {
+        try (final Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
-            	// Query to show the stock of chemicals per gallon
-            	String query = "SELECT * FROM CurrentInventory;";
-            	// Prepare the statement
+                String query = "SELECT * FROM CurrentInventory";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                	
-
-                    // Execute the query
                     try (ResultSet resultSet = statement.executeQuery()) {
                         while (resultSet.next()) {
-                        	// Print the results
                             System.out.println("InventoryID: " + resultSet.getInt("InventoryID") +
-                                    ", Chemical Name: " + resultSet.getString("ChemicalID") +
-                                    	", Container Size: " + resultSet.getString("Quantity") +
-                                    		", Last Update: " + resultSet.getString("LastUpdate"));
+                                    ", Chemical Name: " + resultSet.getString("ChemicalName") +
+                                    ", Container Size: " + resultSet.getString("ContainerSize") +
+                                    ", Quantity: " + resultSet.getString("CurrentQuantity") +
+                                    ", Last Update: " + resultSet.getString("LastUpdate"));
                         }
                     }
                 }
-                
             } else {
                 System.out.println("Error: Database connection is null.");
             }
         } catch (SQLException e) {
             LoggerStockX.logger.log(Level.SEVERE, "ERROR ADDING TO INVENTORY", e);
-        } finally {
-            closeResources();
         }
+    }
 
-	}
-
-	
-	public static void itemAdd (String chemicalName, String containerSize, String currentInventory) {
-    	// Database connection
+    public void itemAdd(String chemicalName, String containerSize, String currentInventory) {
         try (final Connection connection = dbConn.connectToDatabase()) {
-        	// Check if the connection is not null
             if (connection != null) {
-            	// Query to insert a new item into the inventory
-            	String query = "INSERT INTO "
-            			+ "CurrentInventory "
-            			+ "(ChemicalName, ContainerSize, CurrentQuantity) "
-            			+ "VALUES "
-            			+ chemicalName + ", " + containerSize + ", " + currentInventory;
-            	
-            	// Prepare the statement
+                String query = "INSERT INTO CurrentInventory (ChemicalName, ContainerSize, CurrentQuantity) VALUES (?, ?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                	
+                    statement.setString(1, chemicalName);
+                    statement.setString(2, containerSize);
+                    statement.setString(3, currentInventory);
 
-                    // Execute the query
-                    try (ResultSet resultSet = statement.executeQuery()) {
-                        while (resultSet.next()) {
-                        	// Print the results
-                            System.out.println(
-                            		"InventoryID: " + resultSet.getInt("InventoryID: ") 
-                            		+ ", Chemical Name: " + resultSet.getString("ChemicalName")
-                            		+ ", Container Size: " + resultSet.getString("ContainerSize")
-                            		+ ", Quantity: " + resultSet.getString("CurrentQuantity"));
-                        }
+                    int rowsAffected = statement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        System.out.println("Item added successfully");
+                    } else {
+                        System.out.println("Error adding item to inventory");
                     }
-                    System.out.println("Item added successfully");
                 }
             } else {
                 System.out.println("Error: Database connection is null.");
             }
         } catch (SQLException e) {
-            LoggerStockX.logger.log(Level.SEVERE, "ERROR SHOWING CHEMICALS", e);
-        } finally {
-            closeResources();
-        }
-        
-	}
-	
-	private static void closeResources() {
-        // Closing resources if needed
-        if (scanner != null) {
-            scanner.close();
+            LoggerStockX.logger.log(Level.SEVERE, "ERROR ADDING TO INVENTORY", e);
         }
     }
 }
