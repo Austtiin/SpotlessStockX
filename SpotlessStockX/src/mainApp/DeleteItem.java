@@ -34,21 +34,28 @@ public class DeleteItem {
                             do {
                                 displayItemDetails(resultSet);
 
+                               
+                                
+                                
+                                //Not Working ATM
+                                
+                                
                                 System.out.print("Type '1' to confirm deletion, '2' to skip: ");
-                                try {
-                                    switch (scanner.nextLine()) {
-                                        case "1":
-                                            deleteConfirmedItem(resultSet.getString("ChemicalName"));
-                                            return;
-                                        case "2":
-                                            System.out.println("Item not deleted");
-                                            return;
-                                    }
-                                } catch (Exception e) {
-                                    System.out.println("Invalid input, item not deleted");
-                                    return;
-                                }
-
+//                                try {
+//                                    switch (scanner.nextLine()) {
+//                                        case "1":
+//                                            deleteConfirmedItem(resultSet.getString("ChemicalName"));
+//                                            return;
+//                                        case "2":
+//                                            System.out.println("Item not deleted");
+//                                            return;
+//                                    }
+//                                } catch (Exception e) {
+//                                    System.out.println("Invalid input, item not deleted");
+//                                    return;
+//                                }
+                                
+                                deleteConfirmedItem(resultSet.getString("ChemicalName"));
                             } while (resultSet.next());
                         } else {
                             System.out.println("No matching items found");

@@ -94,7 +94,7 @@ public class SpotlessStockXIS {
                     }
                 } else {
                     System.out.println("Invalid input. Please enter a valid integer.");
-                    scanner.nextLine(); // Consume the invalid input
+                    // Consume the invalid input
                 }
             }
         } catch (IllegalStateException | NoSuchElementException e) {
@@ -151,9 +151,11 @@ public class SpotlessStockXIS {
                             break;
                     }
 
+                    // Exit the loop if the user chooses option 3
                     if (choice == 3) {
-                        exit = true; // Exit the loop if the user chooses option 3
+                        exit = true;
                     }
+                    
                 } else {
                     // Consume the invalid input
                     System.out.println("Invalid input. Please enter a valid integer.");
@@ -165,10 +167,17 @@ public class SpotlessStockXIS {
         }
     }
 
+    public static void main(String[] args) {
+        SpotlessStockXIS stockXIS = new SpotlessStockXIS();
+        stockXIS.run();
+    }
+    
+    
     private void stockCheck() {
         try {
             boolean exit = false;
 
+            // Loop until the user chooses to exit
             while (!exit) {
                 System.out.println("==== Check Stock levels ====");
                 System.out.println("Select an option:");
@@ -210,15 +219,18 @@ public class SpotlessStockXIS {
                             stockShow.perGallonShow(55);
                             break;
                         case 6:
+                        	// Exit the loop if the user chooses option 6
                             break;
                         default:
                             System.out.println("Invalid choice. Please try again.");
                             break;
                     }
-
+                    
+                    // Exit the loop if the user chooses option 6
                     if (choice == 6) {
                         exit = true;
                     }
+                    
                 } else {
                     // Consume the invalid input
                     System.out.println("Invalid input. Please enter a valid integer.");
@@ -233,8 +245,24 @@ public class SpotlessStockXIS {
     private void stockUpdate() {
         LoggerStockX.logger.info("==== Update Stock ====");
         // TODO: Implement Update Stock
-        
-        
+
+        System.out.println("Enter the item name to update:");
+        String itemName = scanner.nextLine().trim();
+
+        // Assuming you have a method to fetch details of the item to be updated
+        // For example: ItemDetails itemDetails = fetchItemDetails(itemName);
+
+        if (itemDetails != null) {
+            System.out.println("Enter the new quantity:");
+            int newQuantity = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character
+
+            // TODO: Update the stock with the new quantity
+            // Example: updateStock(itemDetails, newQuantity);
+            System.out.println("Stock updated successfully!");
+        } else {
+            System.out.println("Item not found. Please check the item name.");
+        }
     }
 
     public void stockDelete() {
@@ -247,12 +275,15 @@ public class SpotlessStockXIS {
             if (!chemicalName.isEmpty()) {
                 DeleteItem deleteItem = new DeleteItem(databaseConnector);
                 deleteItem.itemDelete(chemicalName);
+
+                
             } else {
                 System.out.println("Item name cannot be empty, Try again.");
             }
         } catch (IllegalStateException | NoSuchElementException e) {
-            LoggerStockX.logger.log(Level.SEVERE, "Error reading input:: " + e.getMessage(), e);
+            LoggerStockX.logger.log(Level.SEVERE, "Error reading input: " + e.getMessage(), e);
         }
+        
     }
 
         
@@ -261,30 +292,43 @@ public class SpotlessStockXIS {
     private void sitesView() {
         LoggerStockX.logger.info("==== View Delivery Sites ====");
         // TODO: Implement Site View - Waiting for DB
+
+        System.out.println("This feature is under development. Check back later!");
+        // You can add code to fetch and display delivery sites from the database
+        // Example: List<DeliverySite> deliverySites = fetchDeliverySites();
+        // Display the delivery sites...
     }
 
     private void exportBOL() {
         LoggerStockX.logger.info("==== Export BOL Report ====");
         // TODO: Implement Export BOL
+
+        System.out.println("This feature is under development. Check back later!");
+        // You can add code to generate and export the Bill of Lading (BOL) report
+        // Example: exportBOLReport();
     }
 
     private void searchInventory() {
         LoggerStockX.logger.info("==== Search Inventory ====");
         // TODO: Implement Search Inventory logic
+
+        System.out.println("Enter the keyword to search:");
+        String keyword = scanner.nextLine().trim();
+
+        // TODO: Implement search logic based on the keyword
+        // Example: List<Item> searchResults = searchInventory(keyword);
+        // Display the search results...
     }
 
     private void viewSalesTransactions() {
         System.out.println("==== View Sales Transactions ====");
         // TODO: Implement View Sales Transactions
+
+        System.out.println("This feature is under development. Check back later!");
+        // You can add code to fetch and display sales transactions from the database
+        // Example: List<SalesTransaction> salesTransactions = fetchSalesTransactions();
+        // Display the sales transactions...
     }
 
-    private void exitApplication() {
-        System.out.println("Exiting SpotlessStockXIS Application. Goodbye!");
-        System.exit(0);
-    }
-
-    public static void main(String[] args) {
-        SpotlessStockXIS stockXIS = new SpotlessStockXIS();
-        stockXIS.run();
-    }
+   
 }

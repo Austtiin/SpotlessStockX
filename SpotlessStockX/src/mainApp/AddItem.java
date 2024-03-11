@@ -1,3 +1,4 @@
+// Purpose: AddItem class for adding items to the inventory.
 package mainApp;
 
 import java.sql.Connection;
