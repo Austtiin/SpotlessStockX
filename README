@@ -107,7 +107,7 @@ It employs a basic search functionality for inventory items.
 •	Plan for database connection.
 •	Submit current code with comments.
 
-//CURRENT PHASE
+
 * Week 3: Development - Troubleshooting *
 •	Progress with program functionality.
 •	Implement logging.
@@ -120,7 +120,7 @@ It employs a basic search functionality for inventory items.
 •	Document current code and future.
 •	Incorporate version control with the current code.
 
-
+//CURRENT
 * Week 5: Back-End Database *
 •	Integrate database for invoices.
 •	Implement report generation.
