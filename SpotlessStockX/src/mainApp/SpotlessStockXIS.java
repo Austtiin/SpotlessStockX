@@ -1,3 +1,7 @@
+// Purpose: Main application class for the SpotlessStockXIS application.
+// Description: This class is the main application class for the SpotlessStockXIS application. 
+//It contains the main menu and the logic for each menu option.
+
 package mainApp;
 
 import java.util.ArrayList;
@@ -13,13 +17,15 @@ public class SpotlessStockXIS {
     private StockShow stockShow;
     private AddItem addItem;
     private Scanner scanner;
+    private DeleteItem deleteItem;
     private List<SalesTransaction> salesTransactions;
 
     public SpotlessStockXIS() {
         this.databaseConnector = new DatabaseConnector();
         this.stockShow = new StockShow(databaseConnector);
         this.addItem = new AddItem(databaseConnector);
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in); // Use a single scanner
+        this.deleteItem = new DeleteItem(databaseConnector);
         this.salesTransactions = new ArrayList<>();
     }
 
@@ -30,6 +36,11 @@ public class SpotlessStockXIS {
             inventoryManager();
         } catch (Exception e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error in SpotlessStockXIS application", e);
+        } finally {
+            // Close the scanner in the finally block
+            if (scanner != null) {
+                scanner.close();
+            }
         }
     }
 
@@ -46,43 +57,40 @@ public class SpotlessStockXIS {
                 System.out.println("5. View Delivery Sites");
                 System.out.println("6. Export BOL Report");
                 System.out.println("7. Search Inventory");
-                System.out.println("8. View Sales Transactions");
-                System.out.println("9. Exit");
 
                 if (scanner.hasNextInt()) {
                     int choice = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline character
+                    scanner.nextLine(); // Consume the newline character after reading the integer
 
-                    switch (choice) {
-                        case 1:
-                            itemAdd();
-                            break;
-                        case 2:
-                            stockCheck();
-                            break;
-                        case 3:
-                            stockUpdate();
-                            break;
-                        case 4:
-                            stockDelete();
-                            break;
-                        case 5:
-                            sitesView();
-                            break;
-                        case 6:
-                            exportBOL();
-                            break;
-                        case 7:
-                            searchInventory();
-                            break;
-                        case 8:
-                            viewSalesTransactions();
-                            break;
-                        case 9:
-                            exitApplication();
-                            break;
-                        default:
-                            System.out.println("Invalid choice. Please try again.");
+                    if (choice >= 1 && choice <= 7) {
+                        switch (choice) {
+                            case 1:
+                                itemAdd();
+                                break;
+                            case 2:
+                                stockCheck();
+                                break;
+                            case 3:
+                                stockUpdate();
+                                break;
+                            case 4:
+                                stockDelete();
+                                break;
+                            case 5:
+                                sitesView();
+                                break;
+                            case 6:
+                                exportBOL();
+                                break;
+                            case 7:
+                                searchInventory();
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please enter a number between 1 and 7.");
+                                break;
+                        }
+                    } else {
+                        System.out.println("Invalid choice. Please enter a number between 1 and 7.");
                     }
                 } else {
                     System.out.println("Invalid input. Please enter a valid integer.");
@@ -93,6 +101,9 @@ public class SpotlessStockXIS {
             LoggerStockX.logger.log(Level.SEVERE, "Error reading input: " + e.getMessage(), e);
         }
     }
+
+
+
 
     private void itemAdd() {
         LoggerStockX.logger.info("==== Add Stock Item ====");
@@ -226,17 +237,26 @@ public class SpotlessStockXIS {
         
     }
 
-    private void stockDelete() {
+    public void stockDelete() {
         LoggerStockX.logger.info("==== Delete Stock ====");
         System.out.println("Enter the item name to delete:");
-        String item = scanner.nextLine();
 
-        //if (databaseConnector.removeInventory(item)) {
-        //    System.out.println("Item deleted successfully!");
-        //} else {
-        //    System.out.println("Try Again, Item NOT deleted successfully!");
-        //}
+        try {
+            String chemicalName = scanner.nextLine().trim();
+
+            if (!chemicalName.isEmpty()) {
+                DeleteItem deleteItem = new DeleteItem(databaseConnector);
+                deleteItem.itemDelete(chemicalName);
+            } else {
+                System.out.println("Item name cannot be empty, Try again.");
+            }
+        } catch (IllegalStateException | NoSuchElementException e) {
+            LoggerStockX.logger.log(Level.SEVERE, "Error reading input:: " + e.getMessage(), e);
+        }
     }
+
+        
+   
 
     private void sitesView() {
         LoggerStockX.logger.info("==== View Delivery Sites ====");

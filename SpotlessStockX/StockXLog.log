@@ -1,32 +1,8 @@
-Mar 10, 2024 4:12:08 PM mainApp.SpotlessStockXIS run
+Mar 10, 2024 5:41:16 PM mainApp.SpotlessStockXIS run
 INFO: SpotlessStockXIS Application Started.
-Mar 10, 2024 4:12:08 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 10, 2024 5:41:16 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
-Mar 10, 2024 4:12:13 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking Stock Levels...
-Mar 10, 2024 4:12:14 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 10, 2024 4:12:14 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 10, 2024 4:12:17 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 10, 2024 5:41:17 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
-Mar 10, 2024 4:12:21 PM mainApp.SpotlessStockXIS itemAdd
-INFO: ==== Add Stock Item ====
-Mar 10, 2024 4:12:22 PM mainApp.SpotlessStockXIS itemAdd
-INFO: Checking Current Inventory...
-Mar 10, 2024 4:12:23 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 10, 2024 4:12:23 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 10, 2024 4:12:55 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 10, 2024 4:12:55 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 10, 2024 4:12:58 PM mainApp.SpotlessStockXIS itemAdd
-INFO: Checking Current Inventory...
-Mar 10, 2024 4:12:58 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 10, 2024 4:12:58 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 10, 2024 4:13:02 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 10, 2024 5:41:24 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
