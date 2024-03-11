@@ -13,13 +13,17 @@ import logger.LoggerStockX;
 public class AddItem {
     private DatabaseConnector dbConn;
 
+    // Constructor
     public AddItem(DatabaseConnector dbConn) {
         this.dbConn = dbConn;
     }
 
+    // Method to display the current inventory
     public void ShowCurrent() {
+    	// Try with resources to automatically close the connection
         try (final Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
+            	// SQL query to select all items from the CurrentInventory table
                 String query = "SELECT * FROM CurrentInventory";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     try (ResultSet resultSet = statement.executeQuery()) {
@@ -40,9 +44,11 @@ public class AddItem {
         }
     }
 
+    // Method to add an item to the inventory
     public void itemAdd(String chemicalName, String containerSize, String currentInventory) {
         try (final Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
+            	
                 String query = "INSERT INTO CurrentInventory (ChemicalName, ContainerSize, CurrentQuantity) VALUES (?, ?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     statement.setString(1, chemicalName);

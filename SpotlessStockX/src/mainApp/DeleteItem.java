@@ -12,20 +12,25 @@ import java.util.logging.Level;
 
 import logger.LoggerStockX;
 
+//
 public class DeleteItem {
     private DatabaseConnector dbConn;
     private Scanner scanner;
-
+//    private String chemicalName;
     public DeleteItem(DatabaseConnector dbConn) {
         this.dbConn = dbConn;
         this.scanner = new Scanner(System.in);
+        //this.chemicalName = chemicalName;
     }
 
+    // Purpose: Search for an item by name and then confirm the deletion.
     public void itemDelete(String chemicalName) {
         try (Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
+            	// SQL query to search for an item by name
                 String query = "SELECT * FROM CurrentInventory WHERE ChemicalName LIKE ?";
 
+                // Prepare and execute the query
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     statement.setString(1, "%" + chemicalName + "%");
 
@@ -55,6 +60,7 @@ public class DeleteItem {
 //                                    return;
 //                                }
                                 
+                                //Delete the item
                                 deleteConfirmedItem(resultSet.getString("ChemicalName"));
                             } while (resultSet.next());
                         } else {
@@ -72,7 +78,9 @@ public class DeleteItem {
         }
     }
 
+    // Purpose: Display the details of the item found.
     private void displayItemDetails(ResultSet resultSet) throws SQLException {
+    	// Display the details of the item found
         System.out.println("Potential match found:");
         System.out.println("ChemicalID: " + resultSet.getInt("InventoryId") +
                 ", Chemical Name: " + resultSet.getString("ChemicalName") +
@@ -80,16 +88,20 @@ public class DeleteItem {
                 ", Quantity: " + resultSet.getString("CurrentQuantity"));
     }
 
+    // Purpose: Delete the item from the inventory.
     private void deleteConfirmedItem(String chemicalName) {
         try (Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
+            	// SQL query to delete the item from the inventory
                 String deleteQuery = "DELETE FROM CurrentInventory WHERE ChemicalName = ?";
 
                 try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
                     deleteStatement.setString(1, chemicalName);
 
+                    // Execute the delete query
                     int rowsAffected = deleteStatement.executeUpdate();
 
+                    // Check if the item was deleted successfully
                     if (rowsAffected > 0) {
                         System.out.println("Item deleted successfully");
                     } else {
@@ -99,6 +111,7 @@ public class DeleteItem {
             } else {
                 System.out.println("Error: Database connection is null.");
             }
+            // Catch and log any errors
         } catch (SQLException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error deleting item from inventory", e);
         } finally {
@@ -106,6 +119,7 @@ public class DeleteItem {
         }
     }
 
+    // Purpose: Close the scanner resource.
     private void closeResources() {
         if (scanner != null) {
             scanner.close();
