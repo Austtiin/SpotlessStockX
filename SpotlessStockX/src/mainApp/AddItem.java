@@ -51,6 +51,7 @@ public class AddItem {
             	
                 String query = "INSERT INTO CurrentInventory (ChemicalName, ContainerSize, CurrentQuantity) VALUES (?, ?, ?)";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
+                	// Set the parameters for the SQL query
                     statement.setString(1, chemicalName);
                     statement.setString(2, containerSize);
                     statement.setString(3, currentInventory);

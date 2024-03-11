@@ -12,6 +12,9 @@ import java.util.logging.Level;
 
 import logger.LoggerStockX;
 
+//import database.DatabaseConnector;
+
+
 public class SpotlessStockXIS {
     private DatabaseConnector databaseConnector;
     private StockShow stockShow;
@@ -20,6 +23,7 @@ public class SpotlessStockXIS {
     private DeleteItem deleteItem;
     private List<SalesTransaction> salesTransactions;
 
+    // Constructor to initialize the database connector and other objects
     public SpotlessStockXIS() {
         this.databaseConnector = new DatabaseConnector();
         this.stockShow = new StockShow(databaseConnector);
@@ -29,9 +33,11 @@ public class SpotlessStockXIS {
         this.salesTransactions = new ArrayList<>();
     }
 
+    // Main method to start the application
     public void run() {
         try {
             LoggerStockX.logger.info("SpotlessStockXIS Application Started.");
+            // Display the main menu
             System.out.println("Welcome to SpotlessStockX - Your go-to chemical inventory system!");
             inventoryManager();
         } catch (Exception e) {
@@ -43,10 +49,12 @@ public class SpotlessStockXIS {
             }
         }
     }
-
+    
+    // Method to display the main menu and handle user input
     private void inventoryManager() {
         try {
             while (true) {
+            	// Display the main menu
                 LoggerStockX.logger.info("SpotlessStockXIS Menu Accessed.");
                 System.out.println("==== Main Menu ====");
                 System.out.println("Select an option:");
@@ -59,6 +67,7 @@ public class SpotlessStockXIS {
                 System.out.println("7. Search Inventory");
 
                 if (scanner.hasNextInt()) {
+                	// Read the user's choice
                     int choice = scanner.nextInt();
                     scanner.nextLine(); // Consume the newline character after reading the integer
 
@@ -97,6 +106,9 @@ public class SpotlessStockXIS {
                     // Consume the invalid input
                 }
             }
+            //scanner.close(); - ISSUE HERE OR IN MENU RESIDUAL INT.
+            
+            
         } catch (IllegalStateException | NoSuchElementException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error reading input: " + e.getMessage(), e);
         }
@@ -105,6 +117,7 @@ public class SpotlessStockXIS {
 
 
 
+    // Method to add a new item to the inventory
     private void itemAdd() {
         LoggerStockX.logger.info("==== Add Stock Item ====");
         try {
@@ -121,6 +134,7 @@ public class SpotlessStockXIS {
                     int choice = scanner.nextInt();
                     scanner.nextLine();
 
+                    // Based on the user's choice, perform the corresponding action
                     switch (choice) {
                         case 1:
                             System.out.println("Checking Current Inventory...");
@@ -167,12 +181,15 @@ public class SpotlessStockXIS {
         }
     }
 
+  
+    // Main method to start the application
     public static void main(String[] args) {
         SpotlessStockXIS stockXIS = new SpotlessStockXIS();
         stockXIS.run();
     }
     
     
+    // Method to check the stock levels
     private void stockCheck() {
         try {
             boolean exit = false;
@@ -188,10 +205,13 @@ public class SpotlessStockXIS {
                 System.out.println("5. Show 55 Gallon Stock Levels");
                 System.out.println("6. Exit");
 
+                
+                // Read the user's choice
                 if (scanner.hasNextInt()) {
                     int choice = scanner.nextInt();
                     scanner.nextLine();
 
+                    // Based on the user's choice, perform the corresponding action
                     switch (choice) {
                         case 1:
                             System.out.println("Checking Stock Levels...");
@@ -201,14 +221,18 @@ public class SpotlessStockXIS {
                         case 2:
                             System.out.println("Checking 5 Gallon Stock Levels...");
                             LoggerStockX.logger.info("Checking 5 Gallon Stock Levels...");
+                            //
                             stockShow.perGallonShow(5);
                             break;
                         case 3:
+                        	// Check the stock levels for 15 gallon containers
                             System.out.println("Checking 15 Gallon Stock Levels...");
                             LoggerStockX.logger.info("Checking 15 Gallon Stock Levels...");
+                            
                             stockShow.perGallonShow(15);
                             break;
                         case 4:
+                        	// Check the stock levels for 30 gallon containers
                             System.out.println("Checking 30 Gallon Stock Levels...");
                             LoggerStockX.logger.info("Checking 30 Gallon Stock Levels...");
                             stockShow.perGallonShow(30);
@@ -237,11 +261,13 @@ public class SpotlessStockXIS {
                     scanner.nextLine();
                 }
             }
+            //scanner.close();
         } catch (IllegalStateException | NoSuchElementException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error reading input: " + e.getMessage(), e);
         }
     }
 
+    // Method to update the stock levels
     private void stockUpdate() {
         LoggerStockX.logger.info("==== Update Stock ====");
         // TODO: Implement Update Stock
@@ -249,8 +275,8 @@ public class SpotlessStockXIS {
         System.out.println("Enter the item name to update:");
         String itemName = scanner.nextLine().trim();
 
-        // Assuming you have a method to fetch details of the item to be updated
-        // For example: ItemDetails itemDetails = fetchItemDetails(itemName);
+        
+        //ItemDetails itemDetails = fetchItemDetails(itemName);
 
         if (itemDetails != null) {
             System.out.println("Enter the new quantity:");
@@ -265,6 +291,7 @@ public class SpotlessStockXIS {
         }
     }
 
+    // Method to delete an item from the stock
     public void stockDelete() {
         LoggerStockX.logger.info("==== Delete Stock ====");
         System.out.println("Enter the item name to delete:");
@@ -272,6 +299,8 @@ public class SpotlessStockXIS {
         try {
             String chemicalName = scanner.nextLine().trim();
 
+            
+            //ItemDetails itemDetails = fetchItemDetails(itemName);
             if (!chemicalName.isEmpty()) {
                 DeleteItem deleteItem = new DeleteItem(databaseConnector);
                 deleteItem.itemDelete(chemicalName);
@@ -280,6 +309,7 @@ public class SpotlessStockXIS {
             } else {
                 System.out.println("Item name cannot be empty, Try again.");
             }
+            //scanner.close();
         } catch (IllegalStateException | NoSuchElementException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error reading input: " + e.getMessage(), e);
         }
@@ -288,36 +318,35 @@ public class SpotlessStockXIS {
 
         
    
-
+    // Method to view the delivery sites
     private void sitesView() {
         LoggerStockX.logger.info("==== View Delivery Sites ====");
         // TODO: Implement Site View - Waiting for DB
 
-        System.out.println("This feature is under development. Check back later!");
-        // You can add code to fetch and display delivery sites from the database
-        // Example: List<DeliverySite> deliverySites = fetchDeliverySites();
-        // Display the delivery sites...
+        System.out.println("");
+        
+        //List<DeliverySite> deliverySites = fetchDeliverySites();
+        //Display our Sites
     }
 
+    // Method to export the Bill of Lading (BOL) report
     private void exportBOL() {
         LoggerStockX.logger.info("==== Export BOL Report ====");
         // TODO: Implement Export BOL
 
-        System.out.println("This feature is under development. Check back later!");
-        // You can add code to generate and export the Bill of Lading (BOL) report
-        // Example: exportBOLReport();
+        System.out.println("");
+        //exportBOLReport();
     }
 
     private void searchInventory() {
         LoggerStockX.logger.info("==== Search Inventory ====");
-        // TODO: Implement Search Inventory logic
+        // TODO: Implement Search Inventory- Waiting for DB
 
         System.out.println("Enter the keyword to search:");
         String keyword = scanner.nextLine().trim();
 
-        // TODO: Implement search logic based on the keyword
-        // Example: List<Item> searchResults = searchInventory(keyword);
-        // Display the search results...
+        //List<Item> searchResults = searchInventory(keyword);
+      
     }
 
     private void viewSalesTransactions() {
@@ -325,9 +354,9 @@ public class SpotlessStockXIS {
         // TODO: Implement View Sales Transactions
 
         System.out.println("This feature is under development. Check back later!");
-        // You can add code to fetch and display sales transactions from the database
         // Example: List<SalesTransaction> salesTransactions = fetchSalesTransactions();
-        // Display the sales transactions...
+        
+        //Display our Sales Transactions
     }
 
    

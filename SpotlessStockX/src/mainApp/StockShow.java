@@ -20,10 +20,14 @@ public class StockShow {
     public void showStock() {
         try (final Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
+            	// SQL query to show the stock of the chemicals in the inventory
                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM CurrentInventory");
                 ResultSet resultSet = statement.executeQuery();
 
+                
+                // Display the stock of the chemicals in the inventory
                 while (resultSet.next()) {
+                	
                     System.out.println("ChemicalID: " + resultSet.getInt("InventoryID") +
                             ", Chemical Name: " + resultSet.getString("ChemicalName") +
                             ", Container Size: " + resultSet.getString("ContainerSize") +
@@ -37,13 +41,16 @@ public class StockShow {
         }
     }
 
+    // Purpose: Show the stock of the chemicals in the inventory based on the gallon size.
     public void perGallonShow(int gallon) {
         try (final Connection connection = dbConn.connectToDatabase()) {
             if (connection != null) {
+            	// SQL query to show the stock of the chemicals in the inventory based on the gallon size
                 String query = "SELECT * FROM CurrentInventory WHERE ContainerSize = " + gallon;
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     try (ResultSet resultSet = statement.executeQuery()) {
                         while (resultSet.next()) {
+                        	// Display the stock of the chemicals in the inventory based on the gallon size
                             System.out.println("ChemicalID: " + resultSet.getInt("InventoryID") +
                                     ", Chemical Name: " + resultSet.getString("ChemicalName") +
                                     ", Container Size: " + resultSet.getString("ContainerSize") +
