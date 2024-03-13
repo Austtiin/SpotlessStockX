@@ -32,6 +32,7 @@ public class SpotlessStockXIS {
         this.scanner = new Scanner(System.in); // Use a single scanner
         this.deleteItem = new DeleteItem(databaseConnector);
         this.salesTransactions = new ArrayList<>();
+        this.itemDetails = new ItemDetails(databaseConnector);
     }
 
     // Main method to start the application

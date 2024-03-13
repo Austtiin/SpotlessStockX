@@ -9,14 +9,15 @@ import java.util.logging.Level;
 
 import logger.LoggerStockX;
 
+
+
 public class ItemDetails {
 	private static DatabaseConnector dbConn;
-    private Scanner scanner;
 //    private String chemicalName;
     
     public ItemDetails(DatabaseConnector dbConn) {
-        this.dbConn = dbConn;
-        this.scanner = new Scanner(System.in);
+    	
+    	dbConn = new DatabaseConnector();
     }
         
         public static void DetailsItems(String chemicalName) {

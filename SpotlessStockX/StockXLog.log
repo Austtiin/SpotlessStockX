@@ -1,46 +1,23 @@
-Mar 12, 2024 11:32:32 PM mainApp.SpotlessStockXIS run
+Mar 13, 2024 12:42:57 AM mainApp.SpotlessStockXIS run
 INFO: SpotlessStockXIS Application Started.
-Mar 12, 2024 11:32:32 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 13, 2024 12:42:57 AM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
-Mar 12, 2024 11:32:35 PM mainApp.SpotlessStockXIS stockCheck
+Mar 13, 2024 12:43:01 AM mainApp.SpotlessStockXIS stockCheck
 INFO: Checking Stock Levels...
-Mar 12, 2024 11:32:36 PM mainApp.DatabaseConnector connectToDatabase
+Mar 13, 2024 12:43:02 AM mainApp.DatabaseConnector connectToDatabase
 INFO: Connected to DB successfully.
-Mar 12, 2024 11:32:36 PM mainApp.DatabaseConnector connectToDatabase
+Mar 13, 2024 12:43:02 AM mainApp.DatabaseConnector connectToDatabase
 INFO: DB Connection Started
-Mar 12, 2024 11:32:38 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 13, 2024 12:43:04 AM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
-Mar 12, 2024 11:32:41 PM mainApp.SpotlessStockXIS itemAdd
-INFO: ==== Add Stock Item ====
-Mar 12, 2024 11:32:51 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 12, 2024 11:32:51 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 12, 2024 11:32:53 PM mainApp.SpotlessStockXIS itemAdd
-INFO: Checking Current Inventory...
-Mar 12, 2024 11:32:53 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 12, 2024 11:32:53 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 12, 2024 11:32:55 PM mainApp.SpotlessStockXIS inventoryManager
-INFO: SpotlessStockXIS Menu Accessed.
-Mar 12, 2024 11:32:57 PM mainApp.SpotlessStockXIS stockDelete
-INFO: ==== Delete Stock ====
-Mar 12, 2024 11:33:02 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 12, 2024 11:33:02 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 12, 2024 11:33:02 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 12, 2024 11:33:02 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 12, 2024 11:33:02 PM mainApp.SpotlessStockXIS inventoryManager
-INFO: SpotlessStockXIS Menu Accessed.
-Mar 12, 2024 11:33:08 PM mainApp.SpotlessStockXIS stockCheck
-INFO: Checking Stock Levels...
-Mar 12, 2024 11:33:08 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 12, 2024 11:33:08 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 12, 2024 11:33:10 PM mainApp.SpotlessStockXIS inventoryManager
-INFO: SpotlessStockXIS Menu Accessed.
+Mar 13, 2024 12:43:06 AM mainApp.SpotlessStockXIS stockUpdate
+INFO: ==== Update Stock ====
+Mar 13, 2024 12:43:09 AM mainApp.SpotlessStockXIS run
+SEVERE: Error in SpotlessStockXIS application
+java.lang.NullPointerException: Cannot invoke "mainApp.DatabaseConnector.connectToDatabase()" because "mainApp.ItemDetails.dbConn" is null
+	at mainApp.ItemDetails.DetailsItems(ItemDetails.java:24)
+	at mainApp.SpotlessStockXIS.stockUpdate(SpotlessStockXIS.java:279)
+	at mainApp.SpotlessStockXIS.inventoryManager(SpotlessStockXIS.java:85)
+	at mainApp.SpotlessStockXIS.run(SpotlessStockXIS.java:44)
+	at mainApp.Main.main(Main.java:9)
+
