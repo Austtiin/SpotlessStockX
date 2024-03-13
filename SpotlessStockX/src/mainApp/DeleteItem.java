@@ -20,7 +20,7 @@ public class DeleteItem {
     public DeleteItem(DatabaseConnector dbConn) {
         this.dbConn = dbConn;
         this.scanner = new Scanner(System.in);
-        //this.chemicalName = chemicalName;
+        
     }
 
     // Purpose: Search for an item by name and then confirm the deletion.

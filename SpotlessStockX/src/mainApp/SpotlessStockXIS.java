@@ -21,6 +21,7 @@ public class SpotlessStockXIS {
     private AddItem addItem;
     private Scanner scanner;
     private DeleteItem deleteItem;
+    private ItemDetails itemDetails;
     private List<SalesTransaction> salesTransactions;
 
     // Constructor to initialize the database connector and other objects
@@ -270,22 +271,28 @@ public class SpotlessStockXIS {
     // Method to update the stock levels
     private void stockUpdate() {
         LoggerStockX.logger.info("==== Update Stock ====");
-        // TODO: Implement Update Stock
-
         System.out.println("Enter the item name to update:");
         String itemName = scanner.nextLine().trim();
 
+        // Get item details from inventory
+        ItemDetails.DetailsItems(itemName);
+
         
-        //ItemDetails itemDetails = fetchItemDetails(itemName);
-
         if (itemDetails != null) {
-            System.out.println("Enter the new quantity:");
-            int newQuantity = scanner.nextInt();
-            scanner.nextLine();  // Consume the newline character
+            try {
+                System.out.println("Enter the new quantity:");
+                int newQuantity = Integer.parseInt(scanner.nextLine().trim());
 
-            // TODO: Update the stock with the new quantity
-            // Example: updateStock(itemDetails, newQuantity);
-            System.out.println("Stock updated successfully!");
+                System.out.println("Enter the new Container Size:");
+                int newContainerSize = Integer.parseInt(scanner.nextLine().trim());
+
+                // Update item information in inventory
+                ItemDetails.UpdateInfo(newQuantity, newContainerSize, itemName);
+              
+                System.out.println("Stock updated successfully!");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer for quantity and container size.");
+            }
         } else {
             System.out.println("Item not found. Please check the item name.");
         }
@@ -313,7 +320,6 @@ public class SpotlessStockXIS {
         } catch (IllegalStateException | NoSuchElementException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error reading input: " + e.getMessage(), e);
         }
-        
     }
 
         
