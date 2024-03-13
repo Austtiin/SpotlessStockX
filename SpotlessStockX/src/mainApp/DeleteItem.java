@@ -39,28 +39,6 @@ public class DeleteItem {
                             do {
                                 displayItemDetails(resultSet);
 
-                               
-                                
-                                
-                                //Not Working ATM
-                                
-                                
-                                System.out.print("Type '1' to confirm deletion, '2' to skip: ");
-//                                try {
-//                                    switch (scanner.nextLine()) {
-//                                        case "1":
-//                                            deleteConfirmedItem(resultSet.getString("ChemicalName"));
-//                                            return;
-//                                        case "2":
-//                                            System.out.println("Item not deleted");
-//                                            return;
-//                                    }
-//                                } catch (Exception e) {
-//                                    System.out.println("Invalid input, item not deleted");
-//                                    return;
-//                                }
-                                
-                                //Delete the item
                                 deleteConfirmedItem(resultSet.getString("ChemicalName"));
                             } while (resultSet.next());
                         } else {
@@ -115,14 +93,8 @@ public class DeleteItem {
         } catch (SQLException e) {
             LoggerStockX.logger.log(Level.SEVERE, "Error deleting item from inventory", e);
         } finally {
-            closeResources();
-        }
-    }
-
-    // Purpose: Close the scanner resource.
-    private void closeResources() {
-        if (scanner != null) {
-            scanner.close();
+			// Close the scanner
+			//scanner.close();
         }
     }
 }
