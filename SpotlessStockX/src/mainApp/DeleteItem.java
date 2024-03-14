@@ -46,6 +46,11 @@ public class DeleteItem {
                         }
                     }
                 }
+                
+                //scanner.close(); - ISSUE HERE OR IN MENU RESIDUAL INT.
+                //ISSUE RESLOVED - SCANNER INSTANCE WAS CLOSED IN THE FINALLY BLOCK.
+                // IMPACT TO APPLICATION ISOLATES NEED TO JUST LEAVE IT OPEN FOR THE TIME BEING.
+                
             } else {
                 System.out.println("Error: Database connection is null.");
             }

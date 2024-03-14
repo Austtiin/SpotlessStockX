@@ -108,7 +108,7 @@ public class SpotlessStockXIS {
                     // Consume the invalid input
                 }
             }
-            //scanner.close(); - ISSUE HERE OR IN MENU RESIDUAL INT.
+           
             
             
         } catch (IllegalStateException | NoSuchElementException e) {
