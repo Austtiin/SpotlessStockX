@@ -25,7 +25,7 @@ public class ViewSites {
 	        try (Connection connection = dbConn.connectToDatabase()) {
 	            if (connection != null) {
 	            	// Recreate the SQL query to retrieve all delivery sites
-	                String query = "SELECT * FROM DeliverySites";
+	                String query = "SELECT * FROM Sites";
 
 	                // execute the query
 	                try (PreparedStatement statement = connection.prepareStatement(query);
@@ -33,8 +33,9 @@ public class ViewSites {
 	                    System.out.println("==== Delivery Sites ====");
 	                    while (resultSet.next()) {
 	                        displaySiteInfo(resultSet);
-	                        logger.LoggerStockX.logger.log(Level.INFO, "Delivery site information displayed");
+	                        
 	                    }
+	                    logger.LoggerStockX.logger.log(Level.INFO, "Delivery site information displayed");
 	                }
 	            } else {
 	            	// if the connection is null, print an error message
@@ -51,7 +52,7 @@ public class ViewSites {
 	        try {
 	        	// Display the site information
 	            System.out.println("Site ID: " + resultSet.getInt("idSites") +
-	            		"Site Name: " + resultSet.getString("SiteName") +
+	            		", Site Name: " + resultSet.getString("SiteName") +
 	                    ", Address: " + resultSet.getString("SiteAddress") +
 	                    ", Contact Name: " + resultSet.getString("SiteContactName") +
 	                    ", Phone Number: " + resultSet.getString("SitePhoneNum"));
@@ -76,7 +77,7 @@ public class ViewSites {
 			// Insert the site information into the database
 			try (Connection connection = dbConn.connectToDatabase()) {
 				if (connection != null) {
-					String query = "INSERT INTO DeliverySites (SiteName, SiteAddress, SiteContactName, SitePhoneNum) VALUES (?, ?, ?, ?)";
+					String query = "INSERT INTO Sites (SiteName, SiteAddress, SiteContactName, SitePhoneNum) VALUES (?, ?, ?, ?)";
 					try (PreparedStatement statement = connection.prepareStatement(query)) {
 						statement.setString(1, siteName);
 						statement.setString(2, siteAddress);
@@ -114,7 +115,7 @@ public class ViewSites {
 			    //update the site information in the database
 			    try (Connection connection = dbConn.connectToDatabase()) {
 			        if (connection != null) {
-			            String query = "UPDATE DeliverySites SET SiteAddress = ?, SiteContactName = ?, SitePhoneNum = ? WHERE idSite = ?";
+			            String query = "UPDATE Sites SET SiteAddress = ?, SiteContactName = ?, SitePhoneNum = ? WHERE idSites = ?";
 			            try (PreparedStatement statement = connection.prepareStatement(query)) {
 			                statement.setString(1, siteAddress);
 			                statement.setString(2, siteContactName);
@@ -136,6 +137,37 @@ public class ViewSites {
 			        LoggerStockX.logger.log(Level.SEVERE, "Error updating delivery site", e);
 			    }
 			}
+
+		public void deleteSite() {
+		    // Display all sites first
+		    System.out.println("Current Delivery Sites:");
+		    DisplaySites();
+
+		    // Prompt the user to choose a site to delete
+		    System.out.println("Enter the ID of the site you want to delete:");
+		    int siteId = Integer.parseInt(scanner.nextLine());
+
+		    // Delete the selected site from the database
+		    try (Connection connection = dbConn.connectToDatabase()) {
+		        if (connection != null) {
+		            String query = "DELETE FROM Sites WHERE idSites = ?";
+		            try (PreparedStatement statement = connection.prepareStatement(query)) {
+		                statement.setInt(1, siteId);
+		                int rowsDeleted = statement.executeUpdate();
+		                if (rowsDeleted > 0) {
+		                    System.out.println("Site deleted successfully");
+		                    LoggerStockX.logger.log(Level.INFO, "Delivery site deleted successfully");
+		                } else {
+		                    System.out.println("No site found with the ID: " + siteId);
+		                }
+		            }
+		        } else {
+		            System.out.println("Error: Database connection is null.");
+		        }
+		    } catch (SQLException e) {
+		        LoggerStockX.logger.log(Level.SEVERE, "Error deleting delivery site", e);
+		    }
+		}
 		}
 		
 	

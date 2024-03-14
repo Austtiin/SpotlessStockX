@@ -22,6 +22,7 @@ public class SpotlessStockXIS {
     private Scanner scanner;
     private DeleteItem deleteItem;
     private ItemDetails itemDetails;
+    private ViewSites viewSites;
     private List<SalesTransaction> salesTransactions;
 
     // Constructor to initialize the database connector and other objects
@@ -32,6 +33,7 @@ public class SpotlessStockXIS {
         this.scanner = new Scanner(System.in); // Use a single scanner
         this.deleteItem = new DeleteItem(databaseConnector);
         this.salesTransactions = new ArrayList<>();
+        this.viewSites = new ViewSites(databaseConnector);
         this.itemDetails = new ItemDetails(databaseConnector);
     }
 
@@ -328,12 +330,53 @@ public class SpotlessStockXIS {
     // Method to view the delivery sites
     private void sitesView() {
         LoggerStockX.logger.info("==== View Delivery Sites ====");
-        // TODO: Implement Site View - Waiting for DB
-
-        System.out.println("");
+        System.out.println("Select an option:");
+        System.out.println("1. Display All Delivery Sites");
+        System.out.println("2. Add New Delivery Site");
+        System.out.println("3. Update Delivery Site Information");
+        System.out.println("4. Delete Delivery Site");
+        System.out.println("5. Exit");
         
-        //List<DeliverySite> deliverySites = fetchDeliverySites();
-        //Display our Sites
+        
+        
+        // Read the user's choice
+		if (scanner.hasNextInt()) {
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+
+			// Based on the user's choice, perform the corresponding action
+			switch (choice) {
+			case 1:
+				LoggerStockX.logger.info("Displaying Delivery Sites...");
+		        logger.LoggerStockX.logger.info("Displaying Delivery Sites...");
+				viewSites.DisplaySites();
+				break;
+			case 2:
+				viewSites.AddSite();
+				break;
+			case 3:
+				viewSites.UpdateSite();
+				break;
+			case 4:
+				viewSites.deleteSite();
+				break;
+			case 5:
+				break;
+			default:
+				System.out.println("Invalid choice. Please try again.");
+				break;
+			}
+		} else {
+			// Consume the invalid input
+			System.out.println("Invalid input. Please enter a valid integer.");
+			scanner.nextLine();
+		}
+        
+        LoggerStockX.logger.info("Displaying Delivery Sites...");
+        logger.LoggerStockX.logger.info("Displaying Delivery Sites...");
+        
+       
+        
     }
 
     // Method to export the Bill of Lading (BOL) report
