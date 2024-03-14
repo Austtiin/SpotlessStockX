@@ -23,6 +23,7 @@ public class SpotlessStockXIS {
     private DeleteItem deleteItem;
     private ItemDetails itemDetails;
     private ViewSites viewSites;
+    private BOLReport exportBOL;
     private List<SalesTransaction> salesTransactions;
 
     // Constructor to initialize the database connector and other objects
@@ -35,6 +36,7 @@ public class SpotlessStockXIS {
         this.salesTransactions = new ArrayList<>();
         this.viewSites = new ViewSites(databaseConnector);
         this.itemDetails = new ItemDetails(databaseConnector);
+        this.exportBOL = new BOLReport();
     }
 
     // Main method to start the application
@@ -382,10 +384,10 @@ public class SpotlessStockXIS {
     // Method to export the Bill of Lading (BOL) report
     private void exportBOL() {
         LoggerStockX.logger.info("==== Export BOL Report ====");
-        // TODO: Implement Export BOL
-
-        System.out.println("");
-        //exportBOLReport();
+        System.out.println("Exporting BOL Report...");
+        exportBOL.export();
+        
+        //TODO: Implement Export BOL Report
     }
 
     private void searchInventory() {
