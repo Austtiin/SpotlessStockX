@@ -1,24 +1,4 @@
-Mar 13, 2024 10:52:03 PM mainApp.SpotlessStockXIS run
+Mar 14, 2024 11:08:18 PM mainApp.SpotlessStockXIS run
 INFO: SpotlessStockXIS Application Started.
-Mar 13, 2024 10:52:03 PM mainApp.SpotlessStockXIS inventoryManager
-INFO: SpotlessStockXIS Menu Accessed.
-Mar 13, 2024 10:52:04 PM mainApp.SpotlessStockXIS sitesView
-INFO: ==== View Delivery Sites ====
-Mar 13, 2024 10:52:07 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 13, 2024 10:52:07 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 13, 2024 10:52:07 PM mainApp.ViewSites DisplaySites
-INFO: Delivery site information displayed
-Mar 13, 2024 10:52:11 PM mainApp.DatabaseConnector connectToDatabase
-INFO: Connected to DB successfully.
-Mar 13, 2024 10:52:11 PM mainApp.DatabaseConnector connectToDatabase
-INFO: DB Connection Started
-Mar 13, 2024 10:52:11 PM mainApp.ViewSites deleteSite
-INFO: Delivery site deleted successfully
-Mar 13, 2024 10:52:11 PM mainApp.SpotlessStockXIS sitesView
-INFO: Displaying Delivery Sites...
-Mar 13, 2024 10:52:11 PM mainApp.SpotlessStockXIS sitesView
-INFO: Displaying Delivery Sites...
-Mar 13, 2024 10:52:11 PM mainApp.SpotlessStockXIS inventoryManager
+Mar 14, 2024 11:08:18 PM mainApp.SpotlessStockXIS inventoryManager
 INFO: SpotlessStockXIS Menu Accessed.
