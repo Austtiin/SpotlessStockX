@@ -198,6 +198,61 @@ public class ViewSites {
 			// Return false if the site does not exist
 			return false;
 		}
+
+		public Customer getCustomerDetails(String siteId) {
+			Customer customer = new Customer();
+			// Get the customer details for the selected site
+            try (Connection connection = dbConn.connectToDatabase()) {
+                if (connection != null) {
+                    // Recreate the SQL query to retrieve the customer details
+                    String query = "SELECT * FROM Sites WHERE idSites = ?";
+                    try (PreparedStatement statement = connection.prepareStatement(query)) {
+                        // Execute the query
+                        statement.setInt(1, Integer.parseInt(siteId));
+                        try (ResultSet resultSet = statement.executeQuery()) {
+                            if (resultSet.next()) {
+                                customer.setName(resultSet.getString("SiteName"));
+                                customer.setAddress(resultSet.getString("SiteAddress"));
+                                customer.setPhoneNumber(resultSet.getString("SitePhoneNum"));
+                            }
+                        }
+                    }
+                } else {
+                    System.out.println("Error: Database connection is null.");
+                }
+            } catch (SQLException e) {
+                LoggerStockX.logger.log(Level.SEVERE, "Error retrieving customer details", e);
+            }
+            // Return the customer details
+            return customer;
+        }
+
+		public Customer setCustomerDetails(String siteId) {
+			// Set the customer details for the selected site
+			Customer customer = new Customer();
+			try (Connection connection = dbConn.connectToDatabase()) {
+				if (connection != null) {
+					// Recreate the SQL query to retrieve the customer details
+					String query = "SELECT * FROM Sites WHERE idSites = ?";
+					try (PreparedStatement statement = connection.prepareStatement(query)) {
+						// Execute the query
+						statement.setInt(1, Integer.parseInt(siteId));
+						try (ResultSet resultSet = statement.executeQuery()) {
+							if (resultSet.next()) {
+								customer.setName(resultSet.getString("SiteName"));
+								customer.setAddress(resultSet.getString("SiteAddress"));
+								customer.setPhoneNumber(resultSet.getString("SitePhoneNum"));
+							}
+						}
+					}
+				} else {
+					System.out.println("Error: Database connection is null.");
+				}
+			} catch (SQLException e) {
+				LoggerStockX.logger.log(Level.SEVERE, "Error retrieving customer details", e);
+			}
+			return null;
+		}
 		}
 		
 	

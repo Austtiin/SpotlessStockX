@@ -1,6 +1,6 @@
-// This class is responsible for generating a Bill of Lading (BOL) report based on the customer details of a selected site.
+//purpose: This file contains the BOLReport class which is responsible for exporting a Bill of Lading (BOL) report for a given site.
 
-
+package mainApp;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,36 +13,51 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class BOLReport {
     private ViewSites viewSites;
     private Scanner scanner;
+    private static int counter = 1;
 
     public BOLReport() {
-       this.viewSites = new ViewSites(null); // Assuming null parameter is placeholder
-       this.scanner = new Scanner(System.in);
+        this.viewSites = new ViewSites(new DatabaseConnector());
+        this.scanner = new Scanner(System.in);
     }
 
-    public void export(int siteId) {
+    public void export() {
         try {
-            // Retrieve customer details based on the selected site ID
+            // Prompt user to select a site
             viewSites.DisplaySites();
 
             // Load Excel template workbook
-            FileInputStream inputStream = new FileInputStream(new File("resources/BOL Template.xlsx"));
+            FileInputStream inputStream = new FileInputStream(new File("AppResources/BOL Template.xlsx"));
             Workbook workbook = new XSSFWorkbook(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
 
-            // Populate Excel template with customer details
-            Row row = sheet.getRow(2); // Assuming customer details start from row 3
-            row.getCell(1).setCellValue(customer.getName());
-            row = sheet.getRow(3); // Assuming address details are in row 4
-            row.getCell(1).setCellValue(customer.getAddress());
-            row = sheet.getRow(4); // Assuming phone number details are in row 5
-            row.getCell(1).setCellValue(customer.getPhoneNumber());
+            // Get site ID from user input
+            System.out.println("Enter the site ID for which you want to generate the BOL report: ");
+            String siteId = scanner.next();
 
-            // Save the modified workbook as the final BOL report
-            FileOutputStream outputStream = new FileOutputStream(new File("bol_report_" + siteId + ".xlsx"));
-            workbook.write(outputStream);
-            outputStream.close();
+            
+            if (viewSites.siteExists(siteId)) {
+            	//Counter for generating unique file names
+                String fileName = "bol_report_" + counter + "_" + siteId + ".xlsx";
+                counter++;
 
-            System.out.println("BOL report generated successfully for site ID: " + siteId);
+                // Create instance of a Customer object and retrieve its details
+                Customer customer = viewSites.getCustomerDetails(siteId);
+
+                // Populate Excel template with customer details
+                Row row = sheet.getRow(11);
+                row.getCell(1).setCellValue(customer.getName());
+                row.getCell(1).setCellValue(customer.getAddress());
+                row.getCell(1).setCellValue(customer.getPhoneNumber());
+
+                //Save the updated workbook
+                FileOutputStream outputStream = new FileOutputStream(new File(fileName));
+                workbook.write(outputStream);
+                outputStream.close();
+
+                System.out.println("BOL report generated successfully for site ID: " + siteId);
+            } else {
+                System.out.println("Error: Site ID not found.");
+            }
         } catch (IOException e) {
             System.out.println("Error exporting BOL report: " + e.getMessage());
         }
