@@ -168,6 +168,11 @@ public class ViewSites {
 		        LoggerStockX.logger.log(Level.SEVERE, "Error deleting delivery site", e);
 		    }
 		}
+
+		public Customer getCustomerDetails() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 		}
 		
 	
